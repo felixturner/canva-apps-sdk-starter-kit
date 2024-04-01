@@ -4,14 +4,16 @@ import styles from 'styles/components.css';
 import { appProcess } from '@canva/preview/platform';
 import { useOverlay } from 'utils/use_overlay_hook';
 import { useSelection } from 'utils/use_selection_hook';
-import { getTemporaryUrl } from '@canva/asset';
+import { getTemporaryUrl, upload } from '@canva/asset';
 import { LaunchParams } from './app';
+
+import { getOutputURL } from './webgl/main';
 
 type UIState = {
   brushSize: number;
 };
 const initialState: UIState = {
-  brushSize: 7,
+  brushSize: 0.5,
 };
 
 export const ObjectPanel = () => {
@@ -48,46 +50,47 @@ export const ObjectPanel = () => {
         {isOpen ? (
           <>
             <FormField
-              label="Brush size"
+              label="Amount"
               value={state.brushSize}
               control={(props) => (
                 <Slider
                   {...props}
                   defaultValue={initialState.brushSize}
-                  min={5}
-                  max={20}
-                  step={1}
+                  min={0}
+                  max={5}
+                  step={0.01}
                   value={state.brushSize}
-                  onChange={(value) =>
+                  onChange={(value) => {
                     setState((prevState) => {
                       return {
                         ...prevState,
                         brushSize: value,
                       };
-                    })
-                  }
-                  onChangeComplete={(_, value) =>
+                    });
                     appProcess.broadcastMessage({
                       ...state,
                       brushSize: value,
-                    })
-                  }
+                    });
+                  }}
                 />
               )}
             />
+
             <Button
               variant="primary"
-              onClick={() => closeOverlay({ reason: 'completed' })}
+              onClick={() => {
+                closeOverlay({ reason: 'completed' });
+              }}
               stretch
             >
-              Save Overlay
+              Save
             </Button>
             <Button
               variant="primary"
               onClick={() => closeOverlay({ reason: 'aborted' })}
               stretch
             >
-              Cancel Overlay
+              Cancel
             </Button>
           </>
         ) : (
@@ -98,7 +101,7 @@ export const ObjectPanel = () => {
               disabled={!canOpen}
               stretch
             >
-              Open OverlayX
+              Edit Image
             </Button>
           </>
         )}

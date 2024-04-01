@@ -31,7 +31,8 @@
     "@canva/preview": "./sdk/preview",
     "@canva/user": "^1.0.0",
     "react": "^18.1.0",
-    "react-dom": "^18.1.0"
+    "react-dom": "^18.1.0",
+    "three": "^0.163.0"
   },
   "devDependencies": {
     "@ngrok/ngrok": "^1.1.0",

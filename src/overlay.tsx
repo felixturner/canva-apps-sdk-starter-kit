@@ -1,10 +1,20 @@
-import * as React from "react";
-import { AppProcessInfo } from "sdk/preview/platform";
-import { LaunchParams } from "./app";
-import { upload } from "@canva/asset";
-import { useSelection } from "utils/use_selection_hook";
-import { appProcess } from "@canva/preview/platform";
-import styles from "styles/components.css";
+// @ts-nocheck
+
+import * as React from 'react';
+import { AppProcessInfo } from 'sdk/preview/platform';
+import { LaunchParams } from './app';
+import { upload } from '@canva/asset';
+import { useSelection } from 'utils/use_selection_hook';
+import { appProcess } from '@canva/preview/platform';
+import styles from 'styles/components.css';
+
+import {
+  loadImageURL,
+  initGL,
+  setAmount,
+  setAngle,
+  getOutputURL,
+} from './webgl/main';
 
 type OverlayProps = {
   context: AppProcessInfo<LaunchParams>;
@@ -15,85 +25,68 @@ type UIState = {
 };
 
 export const Overlay = (props: OverlayProps) => {
+  console.log('>>>TOP LEVEL OVERLAY COMP');
   const { context: appContext } = props;
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const isDragginRef = React.useRef<boolean>();
-  const selection = useSelection("image");
+  const selection = useSelection('image');
   const uiStateRef = React.useRef<UIState>({
     brushSize: 7,
   });
 
   React.useEffect(() => {
+    console.log('>>>IN USE EFFECT');
     if (!appContext.launchParams) {
       return;
     }
 
+    console.log(window.innerWidth, window.innerHeight);
     const { selectedImageUrl, ...uiState } = appContext.launchParams;
 
     // set initial ui state
     uiStateRef.current = uiState;
 
-    // set up canvas
+    //CREATE WEBGL CANVAS HERE
     const canvas = canvasRef.current;
     if (!canvas) {
-      throw new Error("no canvas");
+      throw new Error('no canvas');
     }
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    const context = canvas.getContext("2d");
-    if (!context) {
-      throw new Error("failed to create context 2d");
-    }
-
-    // download selected image url
-    let img = new Image();
-    img.crossOrigin = "anonymous";
-    img.src = selectedImageUrl;
-    img.onload = () => {
-      context.drawImage(img, 0, 0, canvas.width, canvas.height);
-    };
-
-    window.addEventListener("resize", () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      if (img.complete) {
-        context.drawImage(img, 0, 0, canvas.width, canvas.height);
-      }
-    });
-
-    canvas.addEventListener("pointerdown", (e) => {
-      isDragginRef.current = true;
-    });
-
-    canvas.addEventListener("pointermove", (e) => {
-      if (isDragginRef.current) {
-        context.fillStyle = "white";
-        context.beginPath();
-        context.arc(
-          e.clientX,
-          e.clientY,
-          uiStateRef.current.brushSize,
-          0,
-          Math.PI * 2
-        );
-        context.fill();
-      }
-    });
-
-    canvas.addEventListener("pointerup", () => {
-      isDragginRef.current = false;
-    });
+    initGL(canvas);
+    loadImageURL(selectedImageUrl);
+    setAmount(uiStateRef.current.brushSize);
 
     // set up message handler
     return void appProcess.registerOnMessage((_, message) => {
       if (!message) {
         return;
       }
-      const { brushSize } = message as UIState;
-      uiStateRef.current = {
-        ...uiStateRef.current,
-        brushSize: brushSize,
-      };
+
+      //HANDLE SLIDER CHANGES HERE
+
+      //INVERT BTN HANDLER
+      if (message === 'invert') {
+        // const canvas = canvasRef.current;
+        // if (!canvas) {
+        //   throw new Error('no canvas');
+        // }
+        // const context = canvas.getContext('2d');
+        // if (!context) {
+        //   throw new Error('failed to create context 2d');
+        // }
+        // const { width, height } = canvas;
+        // context.filter = 'invert(100%)';
+        // context.drawImage(canvas, 0, 0, width, height);
+      } else {
+        const { brushSize } = message as UIState;
+        setAmount(brushSize);
+
+        uiStateRef.current = {
+          ...uiStateRef.current,
+          brushSize: brushSize,
+        };
+      }
     });
   }, []);
 
@@ -104,20 +97,29 @@ export const Overlay = (props: OverlayProps) => {
     }
 
     return void appProcess.current.setOnDispose(async ({ reason }) => {
-      if (reason === "aborted") {
+      console.log('setOnDispose', reason);
+      if (reason === 'aborted') {
+        // console.log('ABORT');
         return;
+      } else if (reason === 'completed') {
+        //SAVE WEBGL CANVAS HERE
+        console.log('SAVING RESULT!!!', reason);
+        const outputURL = await getOutputURL('image/png'); //  = await loadImageRef(content.ref);
+        console.log('outputURL', outputURL);
+        const draft = await selection.read();
+        console.log('draft', draft);
+        const queueImage = await upload({
+          type: 'IMAGE',
+          mimeType: 'image/png',
+          url: outputURL,
+          thumbnailUrl: outputURL,
+          width: canvas.width,
+          height: canvas.height,
+          parentRef: draft.contents[0].ref,
+        });
+        draft.contents[0].ref = queueImage.ref;
+        await draft.save();
       }
-      const draft = await selection.read();
-      const queueImage = await upload({
-        type: "IMAGE",
-        mimeType: "image/png",
-        url: canvas.toDataURL(),
-        thumbnailUrl: canvas.toDataURL(),
-        width: canvas.width,
-        height: canvas.height,
-      });
-      draft.contents[0].ref = queueImage.ref;
-      await draft.save();
     });
   }, [selection]);
 
