@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { AppProcessInfo } from 'sdk/preview/platform';
-import { LaunchParams } from './app';
+import { LaunchParams, UIState } from './app';
 import { upload } from '@canva/asset';
 import { useSelection } from 'utils/use_selection_hook';
 import { appProcess } from '@canva/preview/platform';
@@ -13,6 +13,7 @@ import {
   initGL,
   setAmount,
   setAngle,
+  setParams,
   getOutputURL,
 } from './webgl/main';
 
@@ -20,18 +21,14 @@ type OverlayProps = {
   context: AppProcessInfo<LaunchParams>;
 };
 
-type UIState = {
-  brushSize: number;
-};
-
 export const Overlay = (props: OverlayProps) => {
   console.log('>>>TOP LEVEL OVERLAY COMP');
   const { context: appContext } = props;
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
-  const isDragginRef = React.useRef<boolean>();
   const selection = useSelection('image');
   const uiStateRef = React.useRef<UIState>({
-    brushSize: 7,
+    amount: 0.5,
+    angle: 0,
   });
 
   React.useEffect(() => {
@@ -55,7 +52,7 @@ export const Overlay = (props: OverlayProps) => {
     canvas.height = window.innerHeight;
     initGL(canvas);
     loadImageURL(selectedImageUrl);
-    setAmount(uiStateRef.current.brushSize);
+    setParams(uiStateRef.current);
 
     // set up message handler
     return void appProcess.registerOnMessage((_, message) => {
@@ -79,12 +76,15 @@ export const Overlay = (props: OverlayProps) => {
         // context.filter = 'invert(100%)';
         // context.drawImage(canvas, 0, 0, width, height);
       } else {
-        const { brushSize } = message as UIState;
-        setAmount(brushSize);
+        //const { brushSize } =;
+        //setAmount(brushSize);
+        setParams(message as UIState);
 
+        //WHY SAVE LOCALLY???
         uiStateRef.current = {
           ...uiStateRef.current,
-          brushSize: brushSize,
+          amount: message.amount,
+          angle: message.angle,
         };
       }
     });

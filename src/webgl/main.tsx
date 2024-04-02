@@ -111,6 +111,13 @@ function update() {
   console.log('update');
 }
 
+export function setParams(params) {
+  console.log('GL setParams', params);
+  rgbPass.uniforms.amount.value = params.amount;
+  rgbPass.uniforms.angle.value = params.angle * Math.PI * 2;
+  update();
+}
+
 export function setAmount(val) {
   console.log('GL set amount', val);
   rgbPass.uniforms.amount.value = val;

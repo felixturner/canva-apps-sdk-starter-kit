@@ -5,15 +5,13 @@ import { appProcess } from '@canva/preview/platform';
 import { useOverlay } from 'utils/use_overlay_hook';
 import { useSelection } from 'utils/use_selection_hook';
 import { getTemporaryUrl, upload } from '@canva/asset';
-import { LaunchParams } from './app';
+import { LaunchParams, UIState } from './app';
 
 import { getOutputURL } from './webgl/main';
 
-type UIState = {
-  brushSize: number;
-};
 const initialState: UIState = {
-  brushSize: 0.5,
+  amount: 0.5,
+  angle: 0,
 };
 
 export const ObjectPanel = () => {
@@ -38,7 +36,8 @@ export const ObjectPanel = () => {
 
     open({
       launchParameters: {
-        brushSize: state.brushSize,
+        amount: state.amount,
+        angle: state.angle,
         selectedImageUrl: url,
       } satisfies LaunchParams,
     });
@@ -51,25 +50,51 @@ export const ObjectPanel = () => {
           <>
             <FormField
               label="Amount"
-              value={state.brushSize}
+              value={state.amount}
               control={(props) => (
                 <Slider
                   {...props}
-                  defaultValue={initialState.brushSize}
+                  defaultValue={initialState.amount}
                   min={0}
                   max={5}
                   step={0.01}
-                  value={state.brushSize}
+                  value={state.amount}
                   onChange={(value) => {
                     setState((prevState) => {
                       return {
                         ...prevState,
-                        brushSize: value,
+                        amount: value,
                       };
                     });
                     appProcess.broadcastMessage({
                       ...state,
-                      brushSize: value,
+                      amount: value,
+                    });
+                  }}
+                />
+              )}
+            />
+            <FormField
+              label="Angle"
+              value={state.angle}
+              control={(props) => (
+                <Slider
+                  {...props}
+                  defaultValue={initialState.angle}
+                  min={0}
+                  max={1}
+                  step={0.01}
+                  value={state.angle}
+                  onChange={(value) => {
+                    setState((prevState) => {
+                      return {
+                        ...prevState,
+                        angle: value,
+                      };
+                    });
+                    appProcess.broadcastMessage({
+                      ...state,
+                      angle: value,
                     });
                   }}
                 />
@@ -86,7 +111,7 @@ export const ObjectPanel = () => {
               Save
             </Button>
             <Button
-              variant="primary"
+              variant="secondary"
               onClick={() => closeOverlay({ reason: 'aborted' })}
               stretch
             >
