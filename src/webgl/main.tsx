@@ -118,9 +118,9 @@ export function setParams(params) {
   rgbPass.uniforms.angle.value = params.rgbAngle * Math.PI * 2;
   jitterPass.uniforms.amount.value = params.jitterAmount;
   jitterPass.uniforms.seed.value = params.jitterSeed;
-  //solarPass.uniforms.amount.value = params.solarAmount;
+  solarPass.uniforms.amount.value = params.solarAmount;
   solarPass.uniforms.brightness.value = params.solarBrightness;
-  solarPass.uniforms.power.value = params.solarPower;
+  //solarPass.uniforms.power.value = params.solarPower;
 
   update();
 }

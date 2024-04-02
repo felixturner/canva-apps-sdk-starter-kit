@@ -1,33 +1,24 @@
 import * as React from 'react';
-import { Rows, FormField, Button, Slider, Text } from '@canva/app-ui-kit';
-import { appProcess } from '@canva/preview/platform';
+import { FormField, Slider } from '@canva/app-ui-kit';
 
 export const ParamSlider = (props) => {
-  const { label, paramName } = props;
+  const { label, paramName, min, max, step, defaultValue, value, onChange } =
+    props;
+
+  const handleSliderChange = (value) => {
+    onChange(paramName, value);
+  };
   return (
     <FormField
       label={label}
-      value={state.angle}
-      control={(props) => (
+      control={() => (
         <Slider
-          {...props}
-          defaultValue={initialState.angle}
-          min={0}
-          max={1}
-          step={0.01}
-          value={state.angle}
-          onChange={(value) => {
-            setState((prevState) => {
-              return {
-                ...prevState,
-                angle: value,
-              };
-            });
-            appProcess.broadcastMessage({
-              ...state,
-              angle: value,
-            });
-          }}
+          defaultValue={defaultValue}
+          min={min}
+          max={max}
+          step={step}
+          value={value}
+          onChange={handleSliderChange}
         />
       )}
     />

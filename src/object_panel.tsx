@@ -1,12 +1,13 @@
 import * as React from 'react';
-import { Rows, FormField, Button, Slider, Text } from '@canva/app-ui-kit';
+import { Rows, Button, Text } from '@canva/app-ui-kit';
 import styles from 'styles/components.css';
 import { appProcess } from '@canva/preview/platform';
 import { useOverlay } from 'utils/use_overlay_hook';
 import { useSelection } from 'utils/use_selection_hook';
-import { getTemporaryUrl, upload } from '@canva/asset';
+import { getTemporaryUrl } from '@canva/asset';
 import { LaunchParams, UIState } from './app';
 import { PresetGrid } from './preset_grid';
+import { ParamSlider } from './ParamSlider';
 
 const initialState: UIState = {
   rgbAmount: 0,
@@ -15,7 +16,7 @@ const initialState: UIState = {
   jitterSeed: 0,
   solarAmount: 0,
   solarBrightness: 0.5,
-  solarPower: 1,
+  solarPower: 2,
 };
 
 export const ObjectPanel = () => {
@@ -27,6 +28,23 @@ export const ObjectPanel = () => {
   } = useOverlay('image_selection');
   const selection = useSelection('image');
   const [state, setState] = React.useState<UIState>(initialState);
+
+  const onSliderChange = (paramName, value) => {
+    //setCount(count + 1);
+
+    console.log(paramName, value);
+
+    setState((prevState) => {
+      return {
+        ...prevState,
+        [paramName]: value,
+      };
+    });
+    appProcess.broadcastMessage({
+      ...state,
+      [paramName]: value,
+    });
+  };
 
   const openOverlay = async () => {
     const draft = await selection.read();
@@ -58,57 +76,56 @@ export const ObjectPanel = () => {
         {isOpen ? (
           <>
             <PresetGrid />
-            <FormField
-              label="Amount"
+            <ParamSlider
+              label="RGB Amount"
+              paramName="rgbAmount"
+              min="0"
+              max="5"
+              step="0.01"
+              defaultValue={initialState.rgbAmount}
               value={state.rgbAmount}
-              control={(props) => (
-                <Slider
-                  {...props}
-                  defaultValue={initialState.rgbAmount}
-                  min={0}
-                  max={5}
-                  step={0.01}
-                  value={state.rgbAmount}
-                  onChange={(value) => {
-                    setState((prevState) => {
-                      return {
-                        ...prevState,
-                        rgbAmount: value,
-                      };
-                    });
-                    appProcess.broadcastMessage({
-                      ...state,
-                      rgbAmount: value,
-                    });
-                  }}
-                />
-              )}
+              onChange={onSliderChange}
             />
-            <FormField
-              label="Angle"
+
+            <ParamSlider
+              label="RGB Angle"
+              paramName="rgbAngle"
+              min="0"
+              max="1"
+              step="0.01"
+              defaultValue={initialState.rgbAngle}
               value={state.rgbAngle}
-              control={(props) => (
-                <Slider
-                  {...props}
-                  defaultValue={initialState.rgbAngle}
-                  min={0}
-                  max={1}
-                  step={0.01}
-                  value={state.rgbAngle}
-                  onChange={(value) => {
-                    setState((prevState) => {
-                      return {
-                        ...prevState,
-                        rgbAngle: value,
-                      };
-                    });
-                    appProcess.broadcastMessage({
-                      ...state,
-                      rgbAngle: value,
-                    });
-                  }}
-                />
-              )}
+              onChange={onSliderChange}
+            />
+            <ParamSlider
+              label="Jitter Amount"
+              paramName="jitterAmount"
+              min="0"
+              max="1"
+              step="0.01"
+              defaultValue={initialState.jitterAmount}
+              value={state.jitterAmount}
+              onChange={onSliderChange}
+            />
+            <ParamSlider
+              label="Solarize Amount"
+              paramName="solarAmount"
+              min="0"
+              max="1"
+              step="0.01"
+              defaultValue={initialState.solarAmount}
+              value={state.solarAmount}
+              onChange={onSliderChange}
+            />
+            <ParamSlider
+              label="Solarize Brightness"
+              paramName="solarBrightness"
+              min="0.2"
+              max="0.8"
+              step="0.01"
+              defaultValue={initialState.solarBrightness}
+              value={state.solarBrightness}
+              onChange={onSliderChange}
             />
 
             <Button

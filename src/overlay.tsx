@@ -57,13 +57,8 @@ export const Overlay = (props: OverlayProps) => {
       if (!message) {
         return;
       }
-
       //HANDLE SLIDER CHANGES HERE
-
-      //const { brushSize } =;
-      //setAmount(brushSize);
       setParams(message as UIState);
-
       //WHY SAVE LOCALLY???
       uiStateRef.current = {
         ...uiStateRef.current,
