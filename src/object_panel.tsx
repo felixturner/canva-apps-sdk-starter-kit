@@ -1,13 +1,12 @@
-import { Rows, FormField, Button, Slider } from '@canva/app-ui-kit';
 import * as React from 'react';
+import { Rows, FormField, Button, Slider, Text } from '@canva/app-ui-kit';
 import styles from 'styles/components.css';
 import { appProcess } from '@canva/preview/platform';
 import { useOverlay } from 'utils/use_overlay_hook';
 import { useSelection } from 'utils/use_selection_hook';
 import { getTemporaryUrl, upload } from '@canva/asset';
 import { LaunchParams, UIState } from './app';
-
-import { getOutputURL } from './webgl/main';
+import { PresetGrid } from './preset_grid';
 
 const initialState: UIState = {
   amount: 0.5,
@@ -45,9 +44,10 @@ export const ObjectPanel = () => {
 
   return (
     <div className={styles.scrollContainer}>
-      <Rows spacing="2u">
+      <Rows spacing="1u">
         {isOpen ? (
           <>
+            <PresetGrid />
             <FormField
               label="Amount"
               value={state.amount}
@@ -120,6 +120,9 @@ export const ObjectPanel = () => {
           </>
         ) : (
           <>
+            <Text size="medium">
+              Glicth out your image and save to libary. Where's your Head At?
+            </Text>
             <Button
               variant="primary"
               onClick={openOverlay}

@@ -2,10 +2,12 @@ import * as THREE from 'three';
 import { getTemporaryUrl, upload, ImageMimeType, ImageRef } from '@canva/asset';
 import * as Composer from './fx/Composer.js';
 import { RGBShiftShader } from './fx/shaders/RGBShiftShader.js';
+import { SolarizeShader } from './fx/shaders/SolarizeShader.js';
+import { JitterShader } from './fx/shaders/JitterShader.js';
 
 let camera, scene, renderer;
 let quadMaterial;
-let rgbPass;
+let rgbPass, solarPass, jitterPass;
 
 let rnd = Math.random();
 
@@ -29,6 +31,8 @@ export async function initGL(canvas) {
   Composer.init(renderer);
   Composer.addRenderPass(scene, camera);
   rgbPass = Composer.addShaderPass(RGBShiftShader);
+  solarPass = Composer.addShaderPass(SolarizeShader);
+  jitterPass = Composer.addShaderPass(JitterShader);
 
   update();
 }
