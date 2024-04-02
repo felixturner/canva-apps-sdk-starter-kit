@@ -8,14 +8,7 @@ import { useSelection } from 'utils/use_selection_hook';
 import { appProcess } from '@canva/preview/platform';
 import styles from 'styles/components.css';
 
-import {
-  loadImageURL,
-  initGL,
-  setAmount,
-  setAngle,
-  setParams,
-  getOutputURL,
-} from './webgl/main';
+import { loadImageURL, initGL, setParams, getOutputURL } from './webgl/main';
 
 type OverlayProps = {
   context: AppProcessInfo<LaunchParams>;
@@ -27,8 +20,13 @@ export const Overlay = (props: OverlayProps) => {
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const selection = useSelection('image');
   const uiStateRef = React.useRef<UIState>({
-    amount: 0.5,
-    angle: 0,
+    rgbAmount: 0,
+    rgbAngle: 0,
+    jitterAmount: 0,
+    jitterSeed: 0,
+    solarAmount: 0,
+    solarBrightness: 0,
+    solarPower: 0,
   });
 
   React.useEffect(() => {
@@ -62,31 +60,16 @@ export const Overlay = (props: OverlayProps) => {
 
       //HANDLE SLIDER CHANGES HERE
 
-      //INVERT BTN HANDLER
-      if (message === 'invert') {
-        // const canvas = canvasRef.current;
-        // if (!canvas) {
-        //   throw new Error('no canvas');
-        // }
-        // const context = canvas.getContext('2d');
-        // if (!context) {
-        //   throw new Error('failed to create context 2d');
-        // }
-        // const { width, height } = canvas;
-        // context.filter = 'invert(100%)';
-        // context.drawImage(canvas, 0, 0, width, height);
-      } else {
-        //const { brushSize } =;
-        //setAmount(brushSize);
-        setParams(message as UIState);
+      //const { brushSize } =;
+      //setAmount(brushSize);
+      setParams(message as UIState);
 
-        //WHY SAVE LOCALLY???
-        uiStateRef.current = {
-          ...uiStateRef.current,
-          amount: message.amount,
-          angle: message.angle,
-        };
-      }
+      //WHY SAVE LOCALLY???
+      uiStateRef.current = {
+        ...uiStateRef.current,
+        amount: message.amount,
+        angle: message.angle,
+      };
     });
   }, []);
 
@@ -103,22 +86,22 @@ export const Overlay = (props: OverlayProps) => {
         return;
       } else if (reason === 'completed') {
         //SAVE WEBGL CANVAS HERE
-        console.log('SAVING RESULT!!!', reason);
-        const outputURL = await getOutputURL('image/png'); //  = await loadImageRef(content.ref);
-        console.log('outputURL', outputURL);
-        const draft = await selection.read();
-        console.log('draft', draft);
-        const queueImage = await upload({
-          type: 'IMAGE',
-          mimeType: 'image/png',
-          url: outputURL,
-          thumbnailUrl: outputURL,
-          width: canvas.width,
-          height: canvas.height,
-          parentRef: draft.contents[0].ref,
-        });
-        draft.contents[0].ref = queueImage.ref;
-        await draft.save();
+        // console.log('SAVING RESULT!!!', reason);
+        // const outputURL = await getOutputURL('image/png'); //  = await loadImageRef(content.ref);
+        // console.log('outputURL', outputURL);
+        // const draft = await selection.read();
+        // console.log('draft', draft);
+        // const queueImage = await upload({
+        //   type: 'IMAGE',
+        //   mimeType: 'image/png',
+        //   url: outputURL,
+        //   thumbnailUrl: outputURL,
+        //   width: canvas.width,
+        //   height: canvas.height,
+        //   parentRef: draft.contents[0].ref,
+        // });
+        // draft.contents[0].ref = queueImage.ref;
+        // await draft.save();
       }
     });
   }, [selection]);

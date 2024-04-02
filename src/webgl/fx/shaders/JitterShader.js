@@ -11,8 +11,7 @@ export const JitterShader = {
   uniforms: {
     tDiffuse: { type: 't', value: null },
     amount: { type: 'f', value: 0.5 }, //0-1
-    speed: { type: 'f', value: 0.5 }, //0-1
-    time: { type: 'f', value: 0 }, //ms
+    seed: { type: 'f', value: 0.5 }, //0-1
   },
 
   vertexShader: `
@@ -24,8 +23,7 @@ export const JitterShader = {
     uniform sampler2D tDiffuse;
     varying vec2 vUv;
     uniform float amount;
-    uniform float speed;
-    uniform float time;
+    uniform float seed;
 
     float random1d(float n){
       return fract(sin(n) * 43758.5453);
@@ -53,7 +51,7 @@ export const JitterShader = {
       
       vec2 uv = vUv;
 
-      float sTime = floor(time * speed * 6.0 * 24.0);
+      float sTime = seed;
       vec3 inCol = texture2D(tDiffuse, uv).rgb;
       
       //copy orig

@@ -5,13 +5,23 @@ import { Overlay } from './overlay';
 
 export type LaunchParams = {
   selectedImageUrl: string;
-  amount: number;
-  angle: number;
+  rgbAmount: number;
+  rgbAngle: number;
+  jitterAmount: number;
+  jitterSeed: number;
+  solarAmount: number;
+  solarBrightness: number;
+  solarPower: number;
 };
 
 export type UIState = {
-  amount: number;
-  angle: number;
+  rgbAmount: number;
+  rgbAngle: number;
+  jitterAmount: number;
+  jitterSeed: number;
+  solarAmount: number;
+  solarBrightness: number;
+  solarPower: number;
 };
 
 export const App = () => {

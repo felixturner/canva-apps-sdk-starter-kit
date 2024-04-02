@@ -30,8 +30,8 @@ export async function initGL(canvas) {
 
   Composer.init(renderer);
   Composer.addRenderPass(scene, camera);
-  rgbPass = Composer.addShaderPass(RGBShiftShader);
   solarPass = Composer.addShaderPass(SolarizeShader);
+  rgbPass = Composer.addShaderPass(RGBShiftShader);
   jitterPass = Composer.addShaderPass(JitterShader);
 
   update();
@@ -109,26 +109,18 @@ function resizeCanvas(w: number, h: number) {
 }
 
 function update() {
-  //requestAnimationFrame(update);
-  //renderer.render(scene, camera);
   Composer.update();
-  console.log('update');
 }
 
 export function setParams(params) {
   console.log('GL setParams', params);
-  rgbPass.uniforms.amount.value = params.amount;
-  rgbPass.uniforms.angle.value = params.angle * Math.PI * 2;
-  update();
-}
+  rgbPass.uniforms.amount.value = params.rgbAmount;
+  rgbPass.uniforms.angle.value = params.rgbAngle * Math.PI * 2;
+  jitterPass.uniforms.amount.value = params.jitterAmount;
+  jitterPass.uniforms.seed.value = params.jitterSeed;
+  //solarPass.uniforms.amount.value = params.solarAmount;
+  solarPass.uniforms.brightness.value = params.solarBrightness;
+  solarPass.uniforms.power.value = params.solarPower;
 
-export function setAmount(val) {
-  console.log('GL set amount', val);
-  rgbPass.uniforms.amount.value = val;
-  update();
-}
-
-export function setAngle(val) {
-  rgbPass.uniforms.angle.value = val * Math.PI * 2;
   update();
 }

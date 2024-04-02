@@ -9,8 +9,13 @@ import { LaunchParams, UIState } from './app';
 import { PresetGrid } from './preset_grid';
 
 const initialState: UIState = {
-  amount: 0.5,
-  angle: 0,
+  rgbAmount: 0,
+  rgbAngle: 0,
+  jitterAmount: 0,
+  jitterSeed: 0,
+  solarAmount: 0,
+  solarBrightness: 0.5,
+  solarPower: 1,
 };
 
 export const ObjectPanel = () => {
@@ -35,8 +40,13 @@ export const ObjectPanel = () => {
 
     open({
       launchParameters: {
-        amount: state.amount,
-        angle: state.angle,
+        rgbAmount: state.rgbAmount,
+        rgbAngle: state.rgbAngle,
+        jitterAmount: state.jitterAmount,
+        jitterSeed: state.jitterSeed,
+        solarAmount: state.solarAmount,
+        solarBrightness: state.solarBrightness,
+        solarPower: state.solarPower,
         selectedImageUrl: url,
       } satisfies LaunchParams,
     });
@@ -50,25 +60,25 @@ export const ObjectPanel = () => {
             <PresetGrid />
             <FormField
               label="Amount"
-              value={state.amount}
+              value={state.rgbAmount}
               control={(props) => (
                 <Slider
                   {...props}
-                  defaultValue={initialState.amount}
+                  defaultValue={initialState.rgbAmount}
                   min={0}
                   max={5}
                   step={0.01}
-                  value={state.amount}
+                  value={state.rgbAmount}
                   onChange={(value) => {
                     setState((prevState) => {
                       return {
                         ...prevState,
-                        amount: value,
+                        rgbAmount: value,
                       };
                     });
                     appProcess.broadcastMessage({
                       ...state,
-                      amount: value,
+                      rgbAmount: value,
                     });
                   }}
                 />
@@ -76,25 +86,25 @@ export const ObjectPanel = () => {
             />
             <FormField
               label="Angle"
-              value={state.angle}
+              value={state.rgbAngle}
               control={(props) => (
                 <Slider
                   {...props}
-                  defaultValue={initialState.angle}
+                  defaultValue={initialState.rgbAngle}
                   min={0}
                   max={1}
                   step={0.01}
-                  value={state.angle}
+                  value={state.rgbAngle}
                   onChange={(value) => {
                     setState((prevState) => {
                       return {
                         ...prevState,
-                        angle: value,
+                        rgbAngle: value,
                       };
                     });
                     appProcess.broadcastMessage({
                       ...state,
-                      angle: value,
+                      rgbAngle: value,
                     });
                   }}
                 />

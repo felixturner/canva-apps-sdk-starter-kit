@@ -10,8 +10,9 @@ import ortho from './lib/ortho.js';
 export const SolarizeShader = {
   uniforms: {
     tDiffuse: { type: 't', value: null },
-    centerBrightness: { type: 'f', value: 0.5 },
-    powerCurve: { type: 'f', value: 2.0 },
+    amount: { type: 'f', value: 0 },
+    brightness: { type: 'f', value: 0.5 },
+    power: { type: 'f', value: 2.0 },
     colorize: { type: 'f', value: 0.1 },
   },
 
@@ -23,9 +24,10 @@ export const SolarizeShader = {
     precision highp float;
     uniform sampler2D tDiffuse;
         
-    uniform float centerBrightness;
-    uniform float powerCurve;
+    uniform float brightness;
+    uniform float power;
     uniform float colorize;
+    uniform float amount;
 
     varying vec2 vUv;
     
@@ -52,14 +54,15 @@ export const SolarizeShader = {
         vec3 outColor = hslColor;
         
         //	adjust the brightness curve
-        outColor.b = pow(outColor.b, powerCurve);
-        outColor.b = (outColor.b < centerBrightness) ? (1.0 - outColor.b / centerBrightness) : (outColor.b - centerBrightness) / centerBrightness;
+        outColor.b = pow(outColor.b, power);
+        outColor.b = (outColor.b < brightness) ? (1.0 - outColor.b / brightness) : (outColor.b - brightness) / brightness;
         outColor.g = outColor.g * hslColor.b * colorize;
         
         //	convert back to rgb
         outColor = hsv2rgb(outColor);
+
+        outColor = mix(origCol, outColor,amount);
         
-        //Additive Blend
         gl_FragColor = vec4(outColor, 1.0);
     }
 `,

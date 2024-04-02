@@ -34,11 +34,11 @@ export function init(_renderer, parentGui) {
 }
 
 export function update() {
-  let time = performance.now() / 1000;
+  //let time = performance.now() / 1000;
   passes.forEach((pass) => {
-    if (pass.usesTime) {
-      pass.uniforms.time.value = time;
-    }
+    // if (pass.usesTime) {
+    //   pass.uniforms.time.value = time;
+    // }
     pass.render();
   });
   screenPass.render(true);
