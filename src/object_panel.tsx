@@ -99,7 +99,7 @@ export const ObjectPanel = () => {
               onChange={onSliderChange}
             />
             <ParamSlider
-              label="Angle"
+              label="RGB Angle"
               paramName="rgbAngle"
               min="0"
               max="1"
@@ -158,17 +158,20 @@ export const ObjectPanel = () => {
           </>
         ) : (
           <>
-            <Text size="medium">
-              Glicth out your image and save to libary. Where's your Head At?
-            </Text>
-            <Button
-              variant="primary"
-              onClick={openOverlay}
-              disabled={!canOpen}
-              stretch
-            >
-              Edit Image
-            </Button>
+            <Rows spacing="2u">
+              <Text size="large">
+                Glitch out your image with some psychedelic flavor. Where's your
+                head at?
+              </Text>
+              <Button
+                variant="primary"
+                onClick={openOverlay}
+                disabled={!canOpen}
+                stretch
+              >
+                Edit Image
+              </Button>
+            </Rows>
           </>
         )}
       </Rows>
