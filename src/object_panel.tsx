@@ -1,5 +1,14 @@
 import * as React from 'react';
-import { Rows, Button, Text } from '@canva/app-ui-kit';
+import {
+  Rows,
+  Button,
+  Text,
+  Box,
+  Slider,
+  Column,
+  Columns,
+  Title,
+} from '@canva/app-ui-kit';
 import styles from 'styles/components.css';
 import { appProcess } from '@canva/preview/platform';
 import { useOverlay } from 'utils/use_overlay_hook';
@@ -29,11 +38,14 @@ export const ObjectPanel = () => {
   const selection = useSelection('image');
   const [state, setState] = React.useState<UIState>(initialState);
 
+  const handlePresetClick = (presetState) => {
+    console.log('handlePresetClick', presetState);
+    setState(presetState);
+    appProcess.broadcastMessage(presetState);
+  };
+
   const onSliderChange = (paramName, value) => {
-    //setCount(count + 1);
-
     console.log(paramName, value);
-
     setState((prevState) => {
       return {
         ...prevState,
@@ -75,9 +87,9 @@ export const ObjectPanel = () => {
       <Rows spacing="1u">
         {isOpen ? (
           <>
-            <PresetGrid />
+            <PresetGrid handlePresetClick={handlePresetClick} />
             <ParamSlider
-              label="RGB Amount"
+              label="RGB Shift"
               paramName="rgbAmount"
               min="0"
               max="5"
@@ -86,9 +98,8 @@ export const ObjectPanel = () => {
               value={state.rgbAmount}
               onChange={onSliderChange}
             />
-
             <ParamSlider
-              label="RGB Angle"
+              label="RGB Shift Angle"
               paramName="rgbAngle"
               min="0"
               max="1"
@@ -98,7 +109,7 @@ export const ObjectPanel = () => {
               onChange={onSliderChange}
             />
             <ParamSlider
-              label="Jitter Amount"
+              label="Jitter"
               paramName="jitterAmount"
               min="0"
               max="1"
@@ -108,7 +119,7 @@ export const ObjectPanel = () => {
               onChange={onSliderChange}
             />
             <ParamSlider
-              label="Solarize Amount"
+              label="Solarize"
               paramName="solarAmount"
               min="0"
               max="1"

@@ -19,15 +19,6 @@ export const Overlay = (props: OverlayProps) => {
   const { context: appContext } = props;
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const selection = useSelection('image');
-  const uiStateRef = React.useRef<UIState>({
-    rgbAmount: 0,
-    rgbAngle: 0,
-    jitterAmount: 0,
-    jitterSeed: 0,
-    solarAmount: 0,
-    solarBrightness: 0,
-    solarPower: 0,
-  });
 
   React.useEffect(() => {
     console.log('>>>IN USE EFFECT');
@@ -38,9 +29,6 @@ export const Overlay = (props: OverlayProps) => {
     console.log(window.innerWidth, window.innerHeight);
     const { selectedImageUrl, ...uiState } = appContext.launchParams;
 
-    // set initial ui state
-    uiStateRef.current = uiState;
-
     //CREATE WEBGL CANVAS HERE
     const canvas = canvasRef.current;
     if (!canvas) {
@@ -50,7 +38,8 @@ export const Overlay = (props: OverlayProps) => {
     canvas.height = window.innerHeight;
     initGL(canvas);
     loadImageURL(selectedImageUrl);
-    setParams(uiStateRef.current);
+    //set inital params
+    setParams(uiState);
 
     // set up message handler
     return void appProcess.registerOnMessage((_, message) => {
@@ -59,12 +48,6 @@ export const Overlay = (props: OverlayProps) => {
       }
       //HANDLE SLIDER CHANGES HERE
       setParams(message as UIState);
-      //WHY SAVE LOCALLY???
-      uiStateRef.current = {
-        ...uiStateRef.current,
-        amount: message.amount,
-        angle: message.angle,
-      };
     });
   }, []);
 
