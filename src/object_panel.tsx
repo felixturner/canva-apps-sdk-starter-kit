@@ -99,7 +99,7 @@ export const ObjectPanel = () => {
               onChange={onSliderChange}
             />
             <ParamSlider
-              label="RGB Shift Angle"
+              label="Angle"
               paramName="rgbAngle"
               min="0"
               max="1"
@@ -129,7 +129,7 @@ export const ObjectPanel = () => {
               onChange={onSliderChange}
             />
             <ParamSlider
-              label="Solarize Brightness"
+              label="Brightness"
               paramName="solarBrightness"
               min="0.2"
               max="0.8"

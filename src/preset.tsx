@@ -1,9 +1,10 @@
 import { Box, Text, ImageCard, Title, Rows } from '@canva/app-ui-kit';
 import * as React from 'react';
 import { appProcess } from '@canva/preview/platform';
+import cat from 'assets/images/cat.jpg';
 
 export const Preset = (props) => {
-  const { label, onPresetClick, presetState } = props;
+  const { label, onPresetClick, presetState, thumb = cat } = props;
 
   const onClick = () => {
     onPresetClick(presetState);
@@ -17,8 +18,8 @@ export const Preset = (props) => {
           ariaLabel={label}
           borderRadius="standard"
           onClick={onClick}
-          thumbnailUrl="https://www.canva.dev/example-assets/image-import/grass-image-thumbnail.jpg"
-          thumbnailHeight={75}
+          thumbnailUrl={thumb}
+          thumbnailHeight={70}
         />
         <Text size="small" alignment="center">
           {label}
