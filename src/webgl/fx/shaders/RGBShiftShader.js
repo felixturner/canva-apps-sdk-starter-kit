@@ -36,9 +36,11 @@ export const RGBShiftShader = {
 
     varying vec2 vUv;
 
+    #define TAU 6.283185
+
     void main() {
 
-      vec2 offset = amount * 0.02 * vec2( cos(angle), sin(angle));
+      vec2 offset = amount * vec2( cos(angle * TAU), sin(angle * TAU));
       float r = texture2D(tDiffuse, vUv + offset).r;
       float g = texture2D(tDiffuse, vUv).g;
       float b = texture2D(tDiffuse, vUv - offset).b;

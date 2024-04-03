@@ -13,7 +13,7 @@ export const SolarizeShader = {
     amount: { type: 'f', value: 0 },
     brightness: { type: 'f', value: 0.5 },
     power: { type: 'f', value: 2.0 },
-    colorize: { type: 'f', value: 0.1 },
+    colorize: { type: 'f', value: 0.5 },
   },
 
   vertexShader: `

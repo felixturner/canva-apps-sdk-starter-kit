@@ -64,22 +64,22 @@ export const Overlay = (props: OverlayProps) => {
         return;
       } else if (reason === 'completed') {
         //SAVE WEBGL CANVAS HERE
-        // console.log('SAVING RESULT!!!', reason);
-        // const outputURL = await getOutputURL('image/png'); //  = await loadImageRef(content.ref);
-        // console.log('outputURL', outputURL);
-        // const draft = await selection.read();
-        // console.log('draft', draft);
-        // const queueImage = await upload({
-        //   type: 'IMAGE',
-        //   mimeType: 'image/png',
-        //   url: outputURL,
-        //   thumbnailUrl: outputURL,
-        //   width: canvas.width,
-        //   height: canvas.height,
-        //   parentRef: draft.contents[0].ref,
-        // });
-        // draft.contents[0].ref = queueImage.ref;
-        // await draft.save();
+        console.log('SAVING RESULT!!!', reason);
+        const outputURL = await getOutputURL('image/png'); //  = await loadImageRef(content.ref);
+        console.log('outputURL', outputURL);
+        const draft = await selection.read();
+        console.log('draft', draft);
+        const queueImage = await upload({
+          type: 'IMAGE',
+          mimeType: 'image/png',
+          url: outputURL,
+          thumbnailUrl: outputURL,
+          width: canvas.width,
+          height: canvas.height,
+          parentRef: draft.contents[0].ref,
+        });
+        draft.contents[0].ref = queueImage.ref;
+        await draft.save();
       }
     });
   }, [selection]);

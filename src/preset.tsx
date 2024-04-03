@@ -1,10 +1,10 @@
 import { Box, Text, ImageCard, Title, Rows } from '@canva/app-ui-kit';
 import * as React from 'react';
 import { appProcess } from '@canva/preview/platform';
-import cat from 'assets/images/cat.jpg';
+import none from 'assets/images/thumbs/trippy/none.png';
 
 export const Preset = (props) => {
-  const { label, onPresetClick, presetState, thumb = cat } = props;
+  const { label, onPresetClick, presetState, thumb = none } = props;
 
   const onClick = () => {
     onPresetClick(presetState);

@@ -92,7 +92,7 @@ export const ObjectPanel = () => {
               label="RGB Shift"
               paramName="rgbAmount"
               min="0"
-              max="5"
+              max="0.1"
               step="0.01"
               defaultValue={initialState.rgbAmount}
               value={state.rgbAmount}
@@ -112,7 +112,7 @@ export const ObjectPanel = () => {
               label="Jitter"
               paramName="jitterAmount"
               min="0"
-              max="1"
+              max="0.5"
               step="0.01"
               defaultValue={initialState.jitterAmount}
               value={state.jitterAmount}
@@ -128,7 +128,7 @@ export const ObjectPanel = () => {
               value={state.solarAmount}
               onChange={onSliderChange}
             />
-            <ParamSlider
+            {/* <ParamSlider
               label="Brightness"
               paramName="solarBrightness"
               min="0.2"
@@ -137,7 +137,7 @@ export const ObjectPanel = () => {
               defaultValue={initialState.solarBrightness}
               value={state.solarBrightness}
               onChange={onSliderChange}
-            />
+            /> */}
 
             <Button
               variant="primary"

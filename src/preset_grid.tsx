@@ -3,9 +3,11 @@ import { Grid, Box, Title } from '@canva/app-ui-kit';
 import { Preset } from './preset';
 import { LaunchParams, UIState } from './app';
 import { appProcess } from '@canva/preview/platform';
-import cat from 'assets/images/cat.jpg';
-import dog from 'assets/images/dog.jpg';
-import rabbit from 'assets/images/rabbit.jpg';
+import none from 'assets/images/thumbs/trippy/none.png';
+import split from 'assets/images/thumbs/trippy/split.png';
+import radiate from 'assets/images/thumbs/trippy/radiate.png';
+import trace from 'assets/images/thumbs/trippy/trace.png';
+import flourite from 'assets/images/thumbs/trippy/flourite.png';
 
 export const PresetGrid = (props) => {
   const { handlePresetClick } = props;
@@ -19,7 +21,7 @@ export const PresetGrid = (props) => {
     solarPower: 2,
   };
   const SplitState: UIState = {
-    rgbAmount: 5,
+    rgbAmount: 0.1,
     rgbAngle: 0,
     jitterAmount: 0,
     jitterSeed: 0,
@@ -28,7 +30,7 @@ export const PresetGrid = (props) => {
     solarPower: 2,
   };
   const RadiateState: UIState = {
-    rgbAmount: 0.3,
+    rgbAmount: 0.02,
     rgbAngle: 0,
     jitterAmount: 0,
     jitterSeed: 0,
@@ -37,11 +39,38 @@ export const PresetGrid = (props) => {
     solarPower: 2,
   };
   const TraceState: UIState = {
-    rgbAmount: 0.3,
+    rgbAmount: 0.1,
     rgbAngle: 0,
     jitterAmount: 0,
     jitterSeed: 0,
     solarAmount: 1,
+    solarBrightness: 0.5,
+    solarPower: 1,
+  };
+  const OpalState: UIState = {
+    rgbAmount: 0,
+    rgbAngle: 0,
+    jitterAmount: 0.25,
+    jitterSeed: 0,
+    solarAmount: 0,
+    solarBrightness: 0.5,
+    solarPower: 1,
+  };
+  const FlouriteState: UIState = {
+    rgbAmount: 0,
+    rgbAngle: 0,
+    jitterAmount: 0.3,
+    jitterSeed: 0,
+    solarAmount: 0,
+    solarBrightness: 0.5,
+    solarPower: 1,
+  };
+  const MoodStoneState: UIState = {
+    rgbAmount: 0,
+    rgbAngle: 0,
+    jitterAmount: 0.5,
+    jitterSeed: 0,
+    solarAmount: 0,
     solarBrightness: 0.5,
     solarPower: 1,
   };
@@ -56,45 +85,49 @@ export const PresetGrid = (props) => {
         label="None"
         presetState={NoneState}
         onPresetClick={onPresetClick}
-        thumb={cat}
+        thumb={none}
       />
       <Preset
         label="Split"
         presetState={SplitState}
         onPresetClick={onPresetClick}
-        thumb={dog}
+        thumb={split}
       />
       <Preset
         label="Radiate"
         presetState={RadiateState}
         onPresetClick={onPresetClick}
-        thumb={rabbit}
+        thumb={radiate}
       />
       <Preset
         label="Trace"
         presetState={TraceState}
         onPresetClick={onPresetClick}
+        thumb={trace}
       />
-      <Preset
-        label="Opal"
-        presetState={RadiateState}
-        onPresetClick={onPresetClick}
-      />
+
       <Preset
         label="Flourite"
-        presetState={RadiateState}
+        presetState={FlouriteState}
         onPresetClick={onPresetClick}
+        thumb={flourite}
+      />
+      {/* <Preset
+        label="Opal"
+        presetState={OpalState}
+        onPresetClick={onPresetClick}
+       
       />
       <Preset
         label="MoodStone"
-        presetState={RadiateState}
+        presetState={MoodStoneState}
         onPresetClick={onPresetClick}
-      />
-      <Preset
+      /> */}
+      {/* <Preset
         label="Mirror"
         presetState={RadiateState}
         onPresetClick={onPresetClick}
-      />
+      /> */}
     </Grid>
   );
 };
