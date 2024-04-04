@@ -1,14 +1,5 @@
 import * as React from 'react';
-import {
-  Rows,
-  Button,
-  Text,
-  Box,
-  Slider,
-  Column,
-  Columns,
-  Title,
-} from '@canva/app-ui-kit';
+import { Rows, Button, Text } from '@canva/app-ui-kit';
 import styles from 'styles/components.css';
 import { appProcess } from '@canva/preview/platform';
 import { useOverlay } from 'utils/use_overlay_hook';
@@ -28,6 +19,14 @@ const initialState: UIState = {
   solarPower: 2,
 };
 
+function isSupportedMimeType(
+  input: string
+): input is 'image/jpeg' | 'image/heic' | 'image/png' | 'image/webp' {
+  // This does not include "image/svg+xml"
+  const mimeTypes = ['image/jpeg', 'image/heic', 'image/png', 'image/webp'];
+  return mimeTypes.includes(input);
+}
+
 export const ObjectPanel = () => {
   const {
     canOpen,
@@ -39,13 +38,11 @@ export const ObjectPanel = () => {
   const [state, setState] = React.useState<UIState>(initialState);
 
   const handlePresetClick = (presetState) => {
-    console.log('handlePresetClick', presetState);
     setState(presetState);
     appProcess.broadcastMessage(presetState);
   };
 
   const onSliderChange = (paramName, value) => {
-    //console.log(paramName, value);
     setState((prevState) => {
       return {
         ...prevState,
@@ -63,10 +60,19 @@ export const ObjectPanel = () => {
     if (draft.contents.length !== 1) {
       return;
     }
+
+    //download image and check mimeType
     const { url } = await getTemporaryUrl({
       type: 'IMAGE',
       ref: draft.contents[0].ref,
     });
+    const response = await fetch(url, { mode: 'cors' });
+    const imageBlob = await response.blob();
+    const mimeType = imageBlob.type;
+    //webGL can't load SVG
+    if (!isSupportedMimeType(mimeType)) {
+      throw new Error(`Unsupported mime type: ${mimeType}`);
+    }
 
     open({
       launchParameters: {
@@ -77,6 +83,7 @@ export const ObjectPanel = () => {
         solarAmount: state.solarAmount,
         solarBrightness: state.solarBrightness,
         solarPower: state.solarPower,
+        selectedImageMime: mimeType,
         selectedImageUrl: url,
       } satisfies LaunchParams,
     });

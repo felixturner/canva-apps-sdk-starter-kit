@@ -5,29 +5,26 @@ import { upload } from '@canva/asset';
 import { useSelection } from 'utils/use_selection_hook';
 import { appProcess } from '@canva/preview/platform';
 
-import { loadImageURL, initGL, setParams, getOutput } from './webgl/main';
+import { initGL, loadImage, setParams, getOutput } from './webgl/main';
 
 type OverlayProps = {
   context: AppProcessInfo<LaunchParams>;
 };
 
 export const Overlay = (props: OverlayProps) => {
-  console.log('>>>TOP LEVEL OVERLAY COMP');
   const { context: appContext } = props;
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const selection = useSelection('image');
-
-  //force iframe bgnd to be transparent
+  //force iframe bkgnd to be transparent
   document.documentElement.style.background = 'transparent';
 
   React.useEffect(() => {
-    console.log('>>>IN USE EFFECT');
     if (!appContext.launchParams) {
       return;
     }
-    const { selectedImageUrl, ...uiState } = appContext.launchParams;
-
-    //create webgl canvas
+    const { selectedImageUrl, selectedImageMime, ...uiState } =
+      appContext.launchParams;
+    //create canvas
     const canvas = canvasRef.current;
     if (!canvas) {
       throw new Error('no canvas');
@@ -36,7 +33,7 @@ export const Overlay = (props: OverlayProps) => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     initGL(canvas);
-    loadImageURL(selectedImageUrl);
+    loadImage(selectedImageUrl, selectedImageMime);
     //set inital params
     setParams(uiState);
 
@@ -57,16 +54,13 @@ export const Overlay = (props: OverlayProps) => {
     }
 
     return void appProcess.current.setOnDispose(async ({ reason }) => {
-      console.log('setOnDispose', reason);
       if (reason === 'aborted') {
         return;
       } else if (reason === 'completed') {
         //SAVE WEBGL CANVAS HERE
-        console.log('SAVING RESULT!!!', reason);
-        const output = await getOutput(); //  = await loadImageRef(content.ref);
-        console.log('output', output.dataUrl, output.mimeType);
+        console.log('SAVING OUTPUT');
+        const output = await getOutput();
         const draft = await selection.read();
-        console.log('draft', draft);
         const queueImage = await upload({
           type: 'IMAGE',
           mimeType: output.mimeType,

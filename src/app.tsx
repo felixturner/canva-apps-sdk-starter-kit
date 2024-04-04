@@ -4,6 +4,7 @@ import { ObjectPanel } from './object_panel';
 import { Overlay } from './overlay';
 
 export type LaunchParams = {
+  selectedImageMime: string;
   selectedImageUrl: string;
   rgbAmount: number;
   rgbAngle: number;
