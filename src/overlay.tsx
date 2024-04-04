@@ -17,6 +17,9 @@ export const Overlay = (props: OverlayProps) => {
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const selection = useSelection('image');
 
+  //force iframe bgnd to be transparent
+  document.documentElement.style.background = 'transparent';
+
   React.useEffect(() => {
     console.log('>>>IN USE EFFECT');
     if (!appContext.launchParams) {

@@ -14,6 +14,9 @@ console.log('THREE', THREE.REVISION);
 
 export async function initGL(canvas) {
   console.log('INITGL', canvas, rnd);
+
+  //hide canvas until image loaded
+  canvas.style.opacity = 0;
   renderer = new THREE.WebGLRenderer({ canvas: canvas });
   renderer.preserveDrawingBuffer = true;
   camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
@@ -64,6 +67,9 @@ export async function loadImageURL(imageUrl) {
   update();
   // Clean up: Revoke the object URL to free up memory
   URL.revokeObjectURL(objectURL);
+
+  //show canvas after image loaded
+  renderer.domElement.style.opacity = 1;
 }
 
 export async function getOutput() {
