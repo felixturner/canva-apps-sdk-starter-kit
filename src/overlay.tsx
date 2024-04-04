@@ -22,7 +22,7 @@ export const Overlay = (props: OverlayProps) => {
     if (!appContext.launchParams) {
       return;
     }
-    const { selectedImageUrl, selectedImageMime, ...uiState } =
+    const { selectedImageUrl, selectedImageMime, sliderParams } =
       appContext.launchParams;
     //create canvas
     const canvas = canvasRef.current;
@@ -35,7 +35,7 @@ export const Overlay = (props: OverlayProps) => {
     initGL(canvas);
     loadImage(selectedImageUrl, selectedImageMime);
     //set inital params
-    setParams(uiState);
+    setParams(sliderParams);
 
     // set up message handler
     return void appProcess.registerOnMessage((_, message) => {

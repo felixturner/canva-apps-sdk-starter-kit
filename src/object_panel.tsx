@@ -73,15 +73,9 @@ export const ObjectPanel = () => {
 
     open({
       launchParameters: {
-        rgbAmount: state.rgbAmount,
-        rgbAngle: state.rgbAngle,
-        jitterAmount: state.jitterAmount,
-        jitterSeed: state.jitterSeed,
-        solarAmount: state.solarAmount,
-        solarBrightness: state.solarBrightness,
-        solarPower: state.solarPower,
-        selectedImageMime: mimeType,
         selectedImageUrl: url,
+        selectedImageMime: mimeType,
+        sliderParams: state,
       } satisfies LaunchParams,
     });
   };

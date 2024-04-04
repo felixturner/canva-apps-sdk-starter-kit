@@ -6,10 +6,7 @@ import { Overlay } from './overlay';
 export type LaunchParams = {
   selectedImageMime: string;
   selectedImageUrl: string;
-  rgbAmount: number;
-  rgbAngle: number;
-  jitterAmount: number;
-  solarAmount: number;
+  sliderParams: UIState;
 };
 
 export type UIState = {
