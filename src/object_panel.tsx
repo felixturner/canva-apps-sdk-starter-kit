@@ -45,7 +45,7 @@ export const ObjectPanel = () => {
   };
 
   const onSliderChange = (paramName, value) => {
-    console.log(paramName, value);
+    //console.log(paramName, value);
     setState((prevState) => {
       return {
         ...prevState,

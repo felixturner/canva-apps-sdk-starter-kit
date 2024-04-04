@@ -1,14 +1,11 @@
-// @ts-nocheck
-
 import * as React from 'react';
 import { AppProcessInfo } from 'sdk/preview/platform';
 import { LaunchParams, UIState } from './app';
 import { upload } from '@canva/asset';
 import { useSelection } from 'utils/use_selection_hook';
 import { appProcess } from '@canva/preview/platform';
-import styles from 'styles/components.css';
 
-import { loadImageURL, initGL, setParams, getOutputURL } from './webgl/main';
+import { loadImageURL, initGL, setParams, getOutput } from './webgl/main';
 
 type OverlayProps = {
   context: AppProcessInfo<LaunchParams>;
@@ -25,15 +22,14 @@ export const Overlay = (props: OverlayProps) => {
     if (!appContext.launchParams) {
       return;
     }
-
-    console.log(window.innerWidth, window.innerHeight);
     const { selectedImageUrl, ...uiState } = appContext.launchParams;
 
-    //CREATE WEBGL CANVAS HERE
+    //create webgl canvas
     const canvas = canvasRef.current;
     if (!canvas) {
       throw new Error('no canvas');
     }
+    //match iframe dimensions
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     initGL(canvas);
@@ -46,7 +42,7 @@ export const Overlay = (props: OverlayProps) => {
       if (!message) {
         return;
       }
-      //HANDLE SLIDER CHANGES HERE
+      //handle slider changes
       setParams(message as UIState);
     });
   }, []);
@@ -60,20 +56,19 @@ export const Overlay = (props: OverlayProps) => {
     return void appProcess.current.setOnDispose(async ({ reason }) => {
       console.log('setOnDispose', reason);
       if (reason === 'aborted') {
-        // console.log('ABORT');
         return;
       } else if (reason === 'completed') {
         //SAVE WEBGL CANVAS HERE
         console.log('SAVING RESULT!!!', reason);
-        const outputURL = await getOutputURL('image/png'); //  = await loadImageRef(content.ref);
-        console.log('outputURL', outputURL);
+        const output = await getOutput(); //  = await loadImageRef(content.ref);
+        console.log('output', output.dataUrl, output.mimeType);
         const draft = await selection.read();
         console.log('draft', draft);
         const queueImage = await upload({
           type: 'IMAGE',
-          mimeType: 'image/png',
-          url: outputURL,
-          thumbnailUrl: outputURL,
+          mimeType: output.mimeType,
+          url: output.dataUrl,
+          thumbnailUrl: output.dataUrl,
           width: canvas.width,
           height: canvas.height,
           parentRef: draft.contents[0].ref,
@@ -84,5 +79,5 @@ export const Overlay = (props: OverlayProps) => {
     });
   }, [selection]);
 
-  return <canvas ref={canvasRef} className={styles.canvas} />;
+  return <canvas ref={canvasRef} style={{ width: '100%', height: '100%' }} />;
 };
