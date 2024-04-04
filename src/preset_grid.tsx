@@ -59,7 +59,7 @@ export const PresetGrid = (props) => {
   };
 
   return (
-    <Grid alignX="stretch" alignY="stretch" columns={4} spacing="1u">
+    <Grid alignX="stretch" alignY="stretch" columns={3} spacing="1u">
       <Preset
         label="None"
         presetState={NoneState}

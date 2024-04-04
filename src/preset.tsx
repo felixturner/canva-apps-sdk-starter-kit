@@ -19,7 +19,7 @@ export const Preset = (props) => {
           borderRadius="standard"
           onClick={onClick}
           thumbnailUrl={thumb}
-          thumbnailHeight={70}
+          thumbnailHeight={100}
         />
         <Text size="small" alignment="center">
           {label}
