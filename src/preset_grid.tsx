@@ -15,64 +15,43 @@ export const PresetGrid = (props) => {
     rgbAmount: 0,
     rgbAngle: 0,
     jitterAmount: 0,
-    jitterSeed: 0,
     solarAmount: 0,
-    solarBrightness: 0.5,
-    solarPower: 2,
   };
   const SplitState: UIState = {
     rgbAmount: 0.1,
     rgbAngle: 0,
     jitterAmount: 0,
-    jitterSeed: 0,
     solarAmount: 0,
-    solarBrightness: 0.5,
-    solarPower: 2,
   };
   const RadiateState: UIState = {
     rgbAmount: 0.02,
     rgbAngle: 0,
     jitterAmount: 0,
-    jitterSeed: 0,
     solarAmount: 0,
-    solarBrightness: 0.5,
-    solarPower: 2,
   };
   const TraceState: UIState = {
     rgbAmount: 0.1,
     rgbAngle: 0,
     jitterAmount: 0,
-    jitterSeed: 0,
     solarAmount: 1,
-    solarBrightness: 0.5,
-    solarPower: 1,
   };
   const OpalState: UIState = {
     rgbAmount: 0,
     rgbAngle: 0,
     jitterAmount: 0.25,
-    jitterSeed: 0,
     solarAmount: 0,
-    solarBrightness: 0.5,
-    solarPower: 1,
   };
   const FlouriteState: UIState = {
     rgbAmount: 0,
     rgbAngle: 0,
     jitterAmount: 0.3,
-    jitterSeed: 0,
     solarAmount: 0,
-    solarBrightness: 0.5,
-    solarPower: 1,
   };
   const MoodStoneState: UIState = {
     rgbAmount: 0,
     rgbAngle: 0,
     jitterAmount: 0.5,
-    jitterSeed: 0,
     solarAmount: 0,
-    solarBrightness: 0.5,
-    solarPower: 1,
   };
 
   const onPresetClick = (presetState) => {

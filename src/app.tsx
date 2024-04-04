@@ -9,20 +9,14 @@ export type LaunchParams = {
   rgbAmount: number;
   rgbAngle: number;
   jitterAmount: number;
-  jitterSeed: number;
   solarAmount: number;
-  solarBrightness: number;
-  solarPower: number;
 };
 
 export type UIState = {
   rgbAmount: number;
   rgbAngle: number;
   jitterAmount: number;
-  jitterSeed: number;
   solarAmount: number;
-  solarBrightness: number;
-  solarPower: number;
 };
 
 export const App = () => {

@@ -13,10 +13,7 @@ const initialState: UIState = {
   rgbAmount: 0,
   rgbAngle: 0,
   jitterAmount: 0,
-  jitterSeed: 0,
   solarAmount: 0,
-  solarBrightness: 0.5,
-  solarPower: 2,
 };
 
 function isSupportedMimeType(
