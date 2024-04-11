@@ -67,13 +67,13 @@ export const PresetGrid = (props) => {
         thumb={rainbow}
       />
       <Preset
-        label="amethyst"
+        label="Amethyst"
         presetState={AmethystState}
         onPresetClick={onPresetClick}
         thumb={amethyst}
       />
       <Preset
-        label="arctic"
+        label="Arctic"
         presetState={ArcticState}
         onPresetClick={onPresetClick}
         thumb={arctic}
