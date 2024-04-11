@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Rows, Button, Text } from '@canva/app-ui-kit';
+import { ImageCard, Rows, Button, Text } from '@canva/app-ui-kit';
 import styles from 'styles/components.css';
 import { appProcess } from '@canva/preview/platform';
 import { useOverlay } from 'utils/use_overlay_hook';
@@ -8,6 +8,7 @@ import { getTemporaryUrl } from '@canva/asset';
 import { LaunchParams, UIState } from './app';
 import { PresetGrid } from './preset_grid';
 import { ParamSlider } from './ParamSlider';
+import featured from 'assets/images/featured.jpg';
 
 const initialState: UIState = {
   rgbAmount: 0,
@@ -126,17 +127,6 @@ export const ObjectPanel = () => {
               value={state.solarAmount}
               onChange={onSliderChange}
             />
-            {/* <ParamSlider
-              label="Brightness"
-              paramName="solarBrightness"
-              min="0.2"
-              max="0.8"
-              step="0.01"
-              defaultValue={initialState.solarBrightness}
-              value={state.solarBrightness}
-              onChange={onSliderChange}
-            /> */}
-
             <Button
               variant="primary"
               onClick={() => {
@@ -157,9 +147,17 @@ export const ObjectPanel = () => {
         ) : (
           <>
             <Rows spacing="2u">
+              <ImageCard
+                alt="Trippy"
+                ariaLabel="Trippy"
+                borderRadius="standard"
+                onClick={() => {}}
+                thumbnailUrl={featured}
+              />
               <Text size="large">
-                Glitch out your image with some psychedelic flavor. Where's your
-                head at?
+                A futuristic, psychedelic experience. Trippy is about happy
+                accidents - an edgy look made to mimic the effect of a digital
+                error.
               </Text>
               <Button
                 variant="primary"
