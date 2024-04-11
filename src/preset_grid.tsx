@@ -1,52 +1,51 @@
 import * as React from 'react';
-import { Grid, Box, Title } from '@canva/app-ui-kit';
+import { Grid } from '@canva/app-ui-kit';
 import { Preset } from './preset';
-import { LaunchParams, UIState } from './app';
-import { appProcess } from '@canva/preview/platform';
-import none from 'assets/images/thumbs/trippy/none.png';
-import split from 'assets/images/thumbs/trippy/split.png';
-import radiate from 'assets/images/thumbs/trippy/radiate.png';
-import trace from 'assets/images/thumbs/trippy/trace.png';
-import flourite from 'assets/images/thumbs/trippy/flourite.png';
-import opal from 'assets/images/thumbs/trippy/opal.jpg';
+import { UIState } from './app';
+import none from 'assets/images/colormix/none.png';
+import rainbow from 'assets/images/colormix/rainbow.jpg';
+import amethyst from 'assets/images/colormix/amethyst.jpg';
+import arctic from 'assets/images/colormix/arctic.jpg';
+import marmalade from 'assets/images/colormix/marmalade.jpg';
+import parakeet from 'assets/images/colormix/parakeet.jpg';
 
 export const PresetGrid = (props) => {
   const { handlePresetClick } = props;
   const NoneState: UIState = {
-    rgbAmount: 0,
-    rgbAngle: 0,
-    jitterAmount: 0,
-    solarAmount: 0,
+    hueOffset: 0,
+    saturation: 0,
+    rainbowAmount: 0,
+    rainbowOffset: 0,
   };
-  const SplitState: UIState = {
-    rgbAmount: 1,
-    rgbAngle: 0,
-    jitterAmount: 0,
-    solarAmount: 0,
+  const RainbowState: UIState = {
+    hueOffset: 0,
+    saturation: 0,
+    rainbowAmount: 0.5,
+    rainbowOffset: 0.5,
   };
-  const RadiateState: UIState = {
-    rgbAmount: 0.1,
-    rgbAngle: 0,
-    jitterAmount: 0,
-    solarAmount: 0,
+  const ArcticState: UIState = {
+    hueOffset: 1,
+    saturation: 0.1,
+    rainbowAmount: 0,
+    rainbowOffset: 0,
   };
-  const TraceState: UIState = {
-    rgbAmount: 0.7,
-    rgbAngle: 0,
-    jitterAmount: 0,
-    solarAmount: 1,
+  const AmethystState: UIState = {
+    hueOffset: -0.6,
+    saturation: 0.2,
+    rainbowAmount: 0,
+    rainbowOffset: 0,
   };
-  const FlouriteState: UIState = {
-    rgbAmount: 0,
-    rgbAngle: 0,
-    jitterAmount: 0.37,
-    solarAmount: 0,
+  const MarmaladeState: UIState = {
+    hueOffset: 0.3,
+    saturation: 0.6,
+    rainbowAmount: 0,
+    rainbowOffset: 0,
   };
-  const OpalState: UIState = {
-    rgbAmount: 0.5,
-    rgbAngle: 0.25,
-    jitterAmount: 0.61,
-    solarAmount: 0.63,
+  const ParakeetState: UIState = {
+    hueOffset: 0.8,
+    saturation: 0.3,
+    rainbowAmount: 0.2,
+    rainbowOffset: 0,
   };
 
   const onPresetClick = (presetState) => {
@@ -62,34 +61,34 @@ export const PresetGrid = (props) => {
         thumb={none}
       />
       <Preset
-        label="Split"
-        presetState={SplitState}
+        label="Rainbow"
+        presetState={RainbowState}
         onPresetClick={onPresetClick}
-        thumb={split}
+        thumb={rainbow}
       />
       <Preset
-        label="Radiate"
-        presetState={RadiateState}
+        label="amethyst"
+        presetState={AmethystState}
         onPresetClick={onPresetClick}
-        thumb={radiate}
+        thumb={amethyst}
       />
       <Preset
-        label="Flourite"
-        presetState={FlouriteState}
+        label="arctic"
+        presetState={ArcticState}
         onPresetClick={onPresetClick}
-        thumb={flourite}
+        thumb={arctic}
       />
       <Preset
-        label="Trace"
-        presetState={TraceState}
+        label="Marmalade"
+        presetState={MarmaladeState}
         onPresetClick={onPresetClick}
-        thumb={trace}
+        thumb={marmalade}
       />
       <Preset
-        label="Opal"
-        presetState={OpalState}
+        label="Parakeet"
+        presetState={ParakeetState}
         onPresetClick={onPresetClick}
-        thumb={opal}
+        thumb={parakeet}
       />
     </Grid>
   );

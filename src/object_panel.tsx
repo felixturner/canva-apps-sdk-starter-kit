@@ -8,13 +8,13 @@ import { getTemporaryUrl } from '@canva/asset';
 import { LaunchParams, UIState } from './app';
 import { PresetGrid } from './preset_grid';
 import { ParamSlider } from './ParamSlider';
-import featured from 'assets/images/featured.jpg';
+import featured from 'assets/images/colormix/featured.jpg';
 
 const initialState: UIState = {
-  rgbAmount: 0,
-  rgbAngle: 0,
-  jitterAmount: 0,
-  solarAmount: 0,
+  hueOffset: 0,
+  saturation: 0,
+  rainbowAmount: 0,
+  rainbowOffset: 0,
 };
 
 function isSupportedMimeType(
@@ -88,43 +88,43 @@ export const ObjectPanel = () => {
           <>
             <PresetGrid handlePresetClick={handlePresetClick} />
             <ParamSlider
-              label="RGB Shift"
-              paramName="rgbAmount"
-              min="0"
+              label="Hue Offset"
+              paramName="hueOffset"
+              min="-1"
               max="1"
               step="0.01"
-              defaultValue={initialState.rgbAmount}
-              value={state.rgbAmount}
+              defaultValue={initialState.hueOffset}
+              value={state.hueOffset}
               onChange={onSliderChange}
             />
             <ParamSlider
-              label="RGB Angle"
-              paramName="rgbAngle"
-              min="0"
+              label="Saturation"
+              paramName="saturation"
+              min="-1"
               max="1"
               step="0.01"
-              defaultValue={initialState.rgbAngle}
-              value={state.rgbAngle}
+              defaultValue={initialState.saturation}
+              value={state.saturation}
               onChange={onSliderChange}
             />
             <ParamSlider
-              label="Jitter"
-              paramName="jitterAmount"
+              label="Rainbow Amount"
+              paramName="rainbowAmount"
               min="0"
-              max="1"
+              max="0.8"
               step="0.01"
-              defaultValue={initialState.jitterAmount}
-              value={state.jitterAmount}
+              defaultValue={initialState.rainbowAmount}
+              value={state.rainbowAmount}
               onChange={onSliderChange}
             />
             <ParamSlider
-              label="Solarize"
-              paramName="solarAmount"
+              label="Rainbow Offset"
+              paramName="rainbowOffset"
               min="0"
-              max="1"
+              max="2"
               step="0.01"
-              defaultValue={initialState.solarAmount}
-              value={state.solarAmount}
+              defaultValue={initialState.rainbowOffset}
+              value={state.rainbowOffset}
               onChange={onSliderChange}
             />
             <Button
@@ -148,16 +148,15 @@ export const ObjectPanel = () => {
           <>
             <Rows spacing="2u">
               <ImageCard
-                alt="Trippy"
-                ariaLabel="Trippy"
+                alt="Featured"
+                ariaLabel="Featured"
                 borderRadius="standard"
                 onClick={() => {}}
                 thumbnailUrl={featured}
               />
               <Text size="large">
-                A futuristic, psychedelic experience. Trippy is about happy
-                accidents - an edgy look made to mimic the effect of a digital
-                error.
+                Look at the world with rainbow-colored lenses. These fun color
+                palettes will brighten up any photo in a totally unique way.
               </Text>
               <Button
                 variant="primary"

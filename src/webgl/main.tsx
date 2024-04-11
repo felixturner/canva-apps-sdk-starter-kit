@@ -1,12 +1,12 @@
 import * as THREE from 'three';
 import * as Composer from './fx/Composer.js';
-import { RGBShiftShader } from './fx/shaders/RGBShiftShader.js';
-import { SolarizeShader } from './fx/shaders/SolarizeShader.js';
+import { RainbowShader } from './fx/shaders/RainbowShader.js';
+import { HueSatShader } from './fx/shaders/HueSatShader.js';
 import { JitterShader } from './fx/shaders/JitterShader.js';
 
 let camera, scene, renderer;
 let quadMaterial;
-let rgbPass, solarPass, jitterPass;
+let rainbowPass, hueSatPass;
 let mimeType;
 
 export async function initGL(canvas) {
@@ -24,9 +24,8 @@ export async function initGL(canvas) {
 
   Composer.init(renderer);
   Composer.addRenderPass(scene, camera);
-  solarPass = Composer.addShaderPass(SolarizeShader);
-  rgbPass = Composer.addShaderPass(RGBShiftShader);
-  jitterPass = Composer.addShaderPass(JitterShader);
+  rainbowPass = Composer.addShaderPass(RainbowShader);
+  hueSatPass = Composer.addShaderPass(HueSatShader);
 
   update();
 }
@@ -63,9 +62,9 @@ function update() {
 }
 
 export function setParams(params) {
-  rgbPass.uniforms.amount.value = params.rgbAmount;
-  rgbPass.uniforms.angle.value = params.rgbAngle;
-  jitterPass.uniforms.amount.value = params.jitterAmount;
-  solarPass.uniforms.amount.value = params.solarAmount;
+  hueSatPass.uniforms.hue.value = params.hueOffset;
+  hueSatPass.uniforms.saturation.value = params.saturation;
+  rainbowPass.uniforms.amount.value = params.rainbowAmount;
+  rainbowPass.uniforms.offset.value = params.rainbowOffset;
   update();
 }

@@ -10,10 +10,10 @@ export type LaunchParams = {
 };
 
 export type UIState = {
-  rgbAmount: number;
-  rgbAngle: number;
-  jitterAmount: number;
-  solarAmount: number;
+  hueOffset: number;
+  saturation: number;
+  rainbowAmount: number;
+  rainbowOffset: number;
 };
 
 export const App = () => {
