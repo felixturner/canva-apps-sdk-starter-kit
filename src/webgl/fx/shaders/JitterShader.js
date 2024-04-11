@@ -56,19 +56,21 @@ export const JitterShader = {
       
       //copy orig
       vec3 outCol = inCol;
+
+      float amount2 = amount/2.;
       
       //randomly offset slices horizontally
-      float maxOffset = amount/2.0;
+      float maxOffset = amount2/2.0;
 
       vec2 uvOff;
       
       for (float i = 0.0; i < 10.0; i += 1.0) {
 
-        if (i > 10.0 * amount) break;
+        if (i > 10.0 * amount2) break;
 
-        float sliceY = random2d(vec2(sTime + amount, 2345.0 + float(i)));
-        float sliceH = random2d(vec2(sTime + amount, 9035.0 + float(i))) * 0.25;
-        float hOffset = randomRange(vec2(sTime + amount, 9625.0 + float(i)), -maxOffset, maxOffset);
+        float sliceY = random2d(vec2(sTime + amount2, 2345.0 + float(i)));
+        float sliceH = random2d(vec2(sTime + amount2, 9035.0 + float(i))) * 0.25;
+        float hOffset = randomRange(vec2(sTime + amount2, 9625.0 + float(i)), -maxOffset, maxOffset);
         uvOff = uv;
         uvOff.x += hOffset;
         vec2 uvOff = fract(uvOff);
@@ -78,13 +80,13 @@ export const JitterShader = {
       }
     
       //do color offset - slight shift on one entire channel
-      float maxColOffset = amount/6.0;
-      vec2 colOffset = vec2(randomRange(vec2(sTime + amount, 3545.0),-maxColOffset,maxColOffset), randomRange(vec2(sTime , 7205.0),-maxColOffset,maxColOffset));
+      float maxColOffset = amount2/6.0;
+      vec2 colOffset = vec2(randomRange(vec2(sTime + amount2, 3545.0),-maxColOffset,maxColOffset), randomRange(vec2(sTime , 7205.0),-maxColOffset,maxColOffset));
 
       uvOff = fract(uv + colOffset);
       
       //TODO - use col[1] array access
-      float rnd = random2d(vec2(sTime + amount, 9545.0));
+      float rnd = random2d(vec2(sTime + amount2, 9545.0));
       if (rnd < 0.33){
         outCol.r = texture2D(tDiffuse, uvOff).r;
       }else if (rnd < 0.66){

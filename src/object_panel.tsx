@@ -91,7 +91,7 @@ export const ObjectPanel = () => {
               label="RGB Shift"
               paramName="rgbAmount"
               min="0"
-              max="0.1"
+              max="1"
               step="0.01"
               defaultValue={initialState.rgbAmount}
               value={state.rgbAmount}
@@ -111,7 +111,7 @@ export const ObjectPanel = () => {
               label="Jitter"
               paramName="jitterAmount"
               min="0"
-              max="0.5"
+              max="1"
               step="0.01"
               defaultValue={initialState.jitterAmount}
               value={state.jitterAmount}

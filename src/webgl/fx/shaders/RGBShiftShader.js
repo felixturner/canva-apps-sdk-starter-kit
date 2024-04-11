@@ -40,7 +40,7 @@ export const RGBShiftShader = {
 
     void main() {
 
-      vec2 offset = amount * vec2( cos(angle * TAU), sin(angle * TAU));
+      vec2 offset = amount * 0.1 * vec2( cos(angle * TAU), sin(angle * TAU));
       float r = texture2D(tDiffuse, vUv + offset).r;
       float g = texture2D(tDiffuse, vUv).g;
       float b = texture2D(tDiffuse, vUv - offset).b;

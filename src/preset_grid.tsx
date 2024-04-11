@@ -8,6 +8,7 @@ import split from 'assets/images/thumbs/trippy/split.png';
 import radiate from 'assets/images/thumbs/trippy/radiate.png';
 import trace from 'assets/images/thumbs/trippy/trace.png';
 import flourite from 'assets/images/thumbs/trippy/flourite.png';
+import opal from 'assets/images/thumbs/trippy/opal.jpg';
 
 export const PresetGrid = (props) => {
   const { handlePresetClick } = props;
@@ -18,40 +19,34 @@ export const PresetGrid = (props) => {
     solarAmount: 0,
   };
   const SplitState: UIState = {
-    rgbAmount: 0.1,
+    rgbAmount: 1,
     rgbAngle: 0,
     jitterAmount: 0,
     solarAmount: 0,
   };
   const RadiateState: UIState = {
-    rgbAmount: 0.02,
+    rgbAmount: 0.1,
     rgbAngle: 0,
     jitterAmount: 0,
     solarAmount: 0,
   };
   const TraceState: UIState = {
-    rgbAmount: 0.1,
+    rgbAmount: 0.7,
     rgbAngle: 0,
     jitterAmount: 0,
     solarAmount: 1,
   };
-  const OpalState: UIState = {
-    rgbAmount: 0,
-    rgbAngle: 0,
-    jitterAmount: 0.25,
-    solarAmount: 0,
-  };
   const FlouriteState: UIState = {
     rgbAmount: 0,
     rgbAngle: 0,
-    jitterAmount: 0.3,
+    jitterAmount: 0.37,
     solarAmount: 0,
   };
-  const MoodStoneState: UIState = {
-    rgbAmount: 0,
-    rgbAngle: 0,
-    jitterAmount: 0.5,
-    solarAmount: 0,
+  const OpalState: UIState = {
+    rgbAmount: 0.5,
+    rgbAngle: 0.25,
+    jitterAmount: 0.61,
+    solarAmount: 0.63,
   };
 
   const onPresetClick = (presetState) => {
@@ -79,34 +74,23 @@ export const PresetGrid = (props) => {
         thumb={radiate}
       />
       <Preset
-        label="Trace"
-        presetState={TraceState}
-        onPresetClick={onPresetClick}
-        thumb={trace}
-      />
-
-      <Preset
         label="Flourite"
         presetState={FlouriteState}
         onPresetClick={onPresetClick}
         thumb={flourite}
       />
-      {/* <Preset
+      <Preset
+        label="Trace"
+        presetState={TraceState}
+        onPresetClick={onPresetClick}
+        thumb={trace}
+      />
+      <Preset
         label="Opal"
         presetState={OpalState}
         onPresetClick={onPresetClick}
-       
+        thumb={opal}
       />
-      <Preset
-        label="MoodStone"
-        presetState={MoodStoneState}
-        onPresetClick={onPresetClick}
-      /> */}
-      {/* <Preset
-        label="Mirror"
-        presetState={RadiateState}
-        onPresetClick={onPresetClick}
-      /> */}
     </Grid>
   );
 };
