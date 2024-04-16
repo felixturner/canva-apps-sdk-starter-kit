@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ImageCard, Rows, Button, Text } from '@canva/app-ui-kit';
+import { ImageCard, Rows, Button, Text, Alert } from '@canva/app-ui-kit';
 import styles from 'styles/components.css';
 import { appProcess } from '@canva/preview/platform';
 import { useOverlay } from 'utils/use_overlay_hook';
@@ -34,6 +34,7 @@ export const ObjectPanel = () => {
   } = useOverlay('image_selection');
   const selection = useSelection('image');
   const [state, setState] = React.useState<UIState>(initialState);
+  const [SVGError, setSVGError] = React.useState(false);
 
   const handlePresetClick = (presetState) => {
     setState(presetState);
@@ -69,6 +70,7 @@ export const ObjectPanel = () => {
     const mimeType = imageBlob.type;
     //webGL can't load SVG
     if (!isSupportedMimeType(mimeType)) {
+      setSVGError(true);
       throw new Error(`Unsupported mime type: ${mimeType}`);
     }
 
@@ -80,6 +82,10 @@ export const ObjectPanel = () => {
       } satisfies LaunchParams,
     });
   };
+
+  React.useEffect(() => {
+    setSVGError(false);
+  }, [selection]);
 
   return (
     <div className={styles.scrollContainer}>
@@ -166,6 +172,12 @@ export const ObjectPanel = () => {
               >
                 Edit Image
               </Button>
+              {SVGError && (
+                <Alert tone="critical">
+                  ColorMix cannot load SVG images. Please load JPG or PNG
+                  images.
+                </Alert>
+              )}
             </Rows>
           </>
         )}

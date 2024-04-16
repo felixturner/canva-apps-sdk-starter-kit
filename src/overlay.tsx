@@ -58,7 +58,6 @@ export const Overlay = (props: OverlayProps) => {
         return;
       } else if (reason === 'completed') {
         //SAVE WEBGL CANVAS HERE
-        console.log('SAVING OUTPUT');
         const output = await getOutput();
         const draft = await selection.read();
         const queueImage = await upload({
