@@ -35,15 +35,13 @@ export const RainbowShader = {
 
     void main() {
       vec2 p = vUv;
-      vec3 origCol = texture2D( tDiffuse, p ).rgb;
-
-      vec2 off = texture2D( tDiffuse, p ).rg - 0.5;
+      vec4 orig = texture2D( tDiffuse, p );
+      vec2 off = orig.rg - 0.5;
       p += off * offset;
       vec3 rb = rainbow2( (p.x + p.y) * 0.5);
+      vec3 col = mix(orig.rgb,rb,amount);
 
-      vec3 col = mix(origCol,rb,amount);
-
-      gl_FragColor = vec4(col, 1.0);
+      gl_FragColor = vec4(col, orig.a);
     }
   `,
 };

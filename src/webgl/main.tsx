@@ -12,12 +12,15 @@ let mimeType;
 export async function initGL(canvas) {
   //hide canvas until image loaded
   canvas.style.opacity = 0;
-  renderer = new THREE.WebGLRenderer({ canvas: canvas });
+  renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
   renderer.preserveDrawingBuffer = true;
   camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
   scene = new THREE.Scene();
 
-  quadMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+  quadMaterial = new THREE.MeshBasicMaterial({
+    color: 0xffffff,
+    transparent: true,
+  });
   let screenGeom = new THREE.PlaneGeometry(2, 2);
   let screenQuad = new THREE.Mesh(screenGeom, quadMaterial);
   scene.add(screenQuad);
