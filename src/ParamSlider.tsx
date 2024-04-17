@@ -2,8 +2,17 @@ import * as React from 'react';
 import { FormField, Slider, Box } from '@canva/app-ui-kit';
 
 export const ParamSlider = (props) => {
-  const { label, paramName, min, max, step, defaultValue, value, onChange } =
-    props;
+  const {
+    label,
+    paramName,
+    min,
+    max,
+    origin,
+    step,
+    defaultValue,
+    value,
+    onChange,
+  } = props;
 
   const handleSliderChange = (value) => {
     onChange(paramName, value);
@@ -19,6 +28,7 @@ export const ParamSlider = (props) => {
             max={max}
             step={step}
             value={value}
+            origin={origin}
             onChange={handleSliderChange}
           />
         </Box>
