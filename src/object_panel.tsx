@@ -34,6 +34,8 @@ export const ObjectPanel = () => {
   const selection = useSelection('image');
   const [state, setState] = React.useState<UIState>(initialState);
   const [SVGError, setSVGError] = React.useState(false);
+  const [multipleSelectionError, setMultipleSelectionError] =
+    React.useState(false);
 
   const handlePresetClick = (presetState) => {
     setState(presetState);
@@ -70,7 +72,7 @@ export const ObjectPanel = () => {
     //webGL can't load SVG
     if (!isSupportedMimeType(mimeType)) {
       setSVGError(true);
-      throw new Error(`Unsupported mime type: ${mimeType}`);
+      return;
     }
 
     open({
@@ -84,6 +86,14 @@ export const ObjectPanel = () => {
 
   React.useEffect(() => {
     setSVGError(false);
+    setMultipleSelectionError(false);
+    async function checkSelection() {
+      const draft = await selection.read();
+      if (draft.contents.length > 1) {
+        setMultipleSelectionError(true);
+      }
+    }
+    checkSelection();
   }, [selection]);
 
   return (
@@ -168,6 +178,9 @@ export const ObjectPanel = () => {
                   ColorMix cannot load SVG images. Please load JPG or PNG
                   images.
                 </Alert>
+              )}
+              {multipleSelectionError && (
+                <Alert tone="critical">Select a single image to proceed.</Alert>
               )}
             </Rows>
           </>
