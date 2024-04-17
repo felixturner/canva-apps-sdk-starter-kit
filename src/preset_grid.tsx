@@ -11,85 +11,87 @@ import parakeet from 'assets/images/colormix/parakeet.jpg';
 
 export const PresetGrid = (props) => {
   const { handlePresetClick } = props;
-  const NoneState: UIState = {
-    hueOffset: 0,
-    saturation: 0,
-    rainbowAmount: 0,
-    rainbowOffset: 0,
-  };
-  const RainbowState: UIState = {
-    hueOffset: 0,
-    saturation: 0,
-    rainbowAmount: 0.5,
-    rainbowOffset: 0.5,
-  };
-  const ArcticState: UIState = {
-    hueOffset: 1,
-    saturation: 0.1,
-    rainbowAmount: 0,
-    rainbowOffset: 0,
-  };
-  const AmethystState: UIState = {
-    hueOffset: -0.6,
-    saturation: 0.2,
-    rainbowAmount: 0,
-    rainbowOffset: 0,
-  };
-  const MarmaladeState: UIState = {
-    hueOffset: 0.3,
-    saturation: 0.6,
-    rainbowAmount: 0,
-    rainbowOffset: 0,
-  };
-  const ParakeetState: UIState = {
-    hueOffset: 0.8,
-    saturation: 0.3,
-    rainbowAmount: 0.2,
-    rainbowOffset: 0,
-  };
 
-  const onPresetClick = (presetState) => {
-    handlePresetClick(presetState);
+  const presets = [
+    {
+      name: 'None',
+      thumb: none,
+      state: {
+        hueOffset: 0,
+        saturation: 0,
+        rainbowAmount: 0,
+        rainbowOffset: 0,
+      },
+    },
+    {
+      name: 'Rainbow',
+      thumb: rainbow,
+      state: {
+        hueOffset: 0,
+        saturation: 0,
+        rainbowAmount: 0.5,
+        rainbowOffset: 0.5,
+      },
+    },
+    {
+      name: 'Arctic',
+      thumb: arctic,
+      state: {
+        hueOffset: 1,
+        saturation: 0.1,
+        rainbowAmount: 0,
+        rainbowOffset: 0,
+      },
+    },
+    {
+      name: 'Amethyst',
+      thumb: amethyst,
+      state: {
+        hueOffset: -0.6,
+        saturation: 0.2,
+        rainbowAmount: 0,
+        rainbowOffset: 0,
+      },
+    },
+    {
+      name: 'Marmalade',
+      thumb: marmalade,
+      state: {
+        hueOffset: 0.3,
+        saturation: 0.6,
+        rainbowAmount: 0,
+        rainbowOffset: 0,
+      },
+    },
+    {
+      name: 'Parakeet',
+      thumb: parakeet,
+      state: {
+        hueOffset: 0.8,
+        saturation: 0.3,
+        rainbowAmount: 0.2,
+        rainbowOffset: 0,
+      },
+    },
+  ];
+  const [selectedPreset, setSelectedPreset] = React.useState(null);
+  const onPresetClick = (index) => {
+    setSelectedPreset(index);
+    handlePresetClick(presets[index].state);
   };
 
   return (
     <Grid alignX="stretch" alignY="stretch" columns={3} spacing="1u">
-      <Preset
-        label="None"
-        presetState={NoneState}
-        onPresetClick={onPresetClick}
-        thumb={none}
-      />
-      <Preset
-        label="Rainbow"
-        presetState={RainbowState}
-        onPresetClick={onPresetClick}
-        thumb={rainbow}
-      />
-      <Preset
-        label="Amethyst"
-        presetState={AmethystState}
-        onPresetClick={onPresetClick}
-        thumb={amethyst}
-      />
-      <Preset
-        label="Arctic"
-        presetState={ArcticState}
-        onPresetClick={onPresetClick}
-        thumb={arctic}
-      />
-      <Preset
-        label="Marmalade"
-        presetState={MarmaladeState}
-        onPresetClick={onPresetClick}
-        thumb={marmalade}
-      />
-      <Preset
-        label="Parakeet"
-        presetState={ParakeetState}
-        onPresetClick={onPresetClick}
-        thumb={parakeet}
-      />
+      {presets.map((preset, index) => (
+        <Preset
+          key={index}
+          label={preset.name}
+          presetState={preset.state}
+          onPresetClick={() => onPresetClick(index)}
+          thumb={preset.thumb}
+          selected={selectedPreset === index}
+        />
+      ))}
     </Grid>
   );
 };

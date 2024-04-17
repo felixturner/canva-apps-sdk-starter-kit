@@ -8,7 +8,6 @@ import { getTemporaryUrl } from '@canva/asset';
 import { LaunchParams, UIState } from './app';
 import { PresetGrid } from './preset_grid';
 import { ParamSlider } from './ParamSlider';
-import featured from 'assets/images/colormix/featured.jpg';
 
 const initialState: UIState = {
   hueOffset: 0,
@@ -153,24 +152,14 @@ export const ObjectPanel = () => {
         ) : (
           <>
             <Rows spacing="2u">
-              <ImageCard
-                alt="Featured"
-                ariaLabel="Featured"
-                borderRadius="standard"
-                onClick={() => {}}
-                thumbnailUrl={featured}
-              />
-              <Text size="large">
-                Look at the world with rainbow-colored lenses. These fun color
-                palettes will brighten up any photo in a totally unique way.
-              </Text>
+              <Text size="medium">Select an image to start editing</Text>
               <Button
                 variant="primary"
                 onClick={openOverlay}
                 disabled={!canOpen}
                 stretch
               >
-                Edit Image
+                Edit image
               </Button>
               {SVGError && (
                 <Alert tone="critical">
