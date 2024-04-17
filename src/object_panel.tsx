@@ -93,11 +93,12 @@ export const ObjectPanel = () => {
           <>
             <PresetGrid handlePresetClick={handlePresetClick} />
             <ParamSlider
-              label="Hue Offset"
+              label="Hue offset"
               paramName="hueOffset"
               min="-1"
               max="1"
               step="0.01"
+              origin="0"
               defaultValue={initialState.hueOffset}
               value={state.hueOffset}
               onChange={onSliderChange}
@@ -108,12 +109,13 @@ export const ObjectPanel = () => {
               min="-1"
               max="1"
               step="0.01"
+              origin="0"
               defaultValue={initialState.saturation}
               value={state.saturation}
               onChange={onSliderChange}
             />
             <ParamSlider
-              label="Rainbow Amount"
+              label="Rainbow amount"
               paramName="rainbowAmount"
               min="0"
               max="0.8"
@@ -123,7 +125,7 @@ export const ObjectPanel = () => {
               onChange={onSliderChange}
             />
             <ParamSlider
-              label="Rainbow Offset"
+              label="Rainbow offset"
               paramName="rainbowOffset"
               min="0"
               max="2"
