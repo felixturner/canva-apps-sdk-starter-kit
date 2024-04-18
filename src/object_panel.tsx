@@ -1,15 +1,15 @@
 import * as React from 'react';
-import { ImageCard, Rows, Button, Text, Alert } from '@canva/app-ui-kit';
+import { Rows, Button, Text, Alert } from '@canva/app-ui-kit';
 import styles from 'styles/components.css';
 import { appProcess } from '@canva/preview/platform';
 import { useOverlay } from 'utils/use_overlay_hook';
 import { useSelection } from 'utils/use_selection_hook';
 import { getTemporaryUrl } from '@canva/asset';
-import { LaunchParams, UIState } from './app';
+import { LaunchParams, EffectParams } from './app';
 import { PresetGrid } from './preset_grid';
 import { ParamSlider } from './ParamSlider';
 
-const initialState: UIState = {
+const initialParams: EffectParams = {
   hueOffset: 0,
   saturation: 0,
   rainbowAmount: 0,
@@ -32,25 +32,25 @@ export const ObjectPanel = () => {
     close: closeOverlay,
   } = useOverlay('image_selection');
   const selection = useSelection('image');
-  const [state, setState] = React.useState<UIState>(initialState);
+  const [params, setParams] = React.useState<EffectParams>(initialParams);
   const [SVGError, setSVGError] = React.useState(false);
   const [multipleSelectionError, setMultipleSelectionError] =
     React.useState(false);
 
-  const handlePresetClick = (presetState) => {
-    setState(presetState);
-    appProcess.broadcastMessage(presetState);
+  const handlePresetClick = (presetParams) => {
+    setParams(presetParams);
+    appProcess.broadcastMessage(presetParams);
   };
 
   const onSliderChange = (paramName, value) => {
-    setState((prevState) => {
+    setParams((prevParams) => {
       return {
-        ...prevState,
+        ...prevParams,
         [paramName]: value,
       };
     });
     appProcess.broadcastMessage({
-      ...state,
+      ...params,
       [paramName]: value,
     });
   };
@@ -79,7 +79,7 @@ export const ObjectPanel = () => {
       launchParameters: {
         selectedImageUrl: url,
         selectedImageMime: mimeType,
-        sliderParams: state,
+        effectParams: params,
       } satisfies LaunchParams,
     });
   };
@@ -109,8 +109,8 @@ export const ObjectPanel = () => {
               max="1"
               step="0.01"
               origin="0"
-              defaultValue={initialState.hueOffset}
-              value={state.hueOffset}
+              defaultValue={initialParams.hueOffset}
+              value={params.hueOffset}
               onChange={onSliderChange}
             />
             <ParamSlider
@@ -120,8 +120,8 @@ export const ObjectPanel = () => {
               max="1"
               step="0.01"
               origin="0"
-              defaultValue={initialState.saturation}
-              value={state.saturation}
+              defaultValue={initialParams.saturation}
+              value={params.saturation}
               onChange={onSliderChange}
             />
             <ParamSlider
@@ -130,8 +130,8 @@ export const ObjectPanel = () => {
               min="0"
               max="0.8"
               step="0.01"
-              defaultValue={initialState.rainbowAmount}
-              value={state.rainbowAmount}
+              defaultValue={initialParams.rainbowAmount}
+              value={params.rainbowAmount}
               onChange={onSliderChange}
             />
             <ParamSlider
@@ -140,8 +140,8 @@ export const ObjectPanel = () => {
               min="0"
               max="2"
               step="0.01"
-              defaultValue={initialState.rainbowOffset}
-              value={state.rainbowOffset}
+              defaultValue={initialParams.rainbowOffset}
+              value={params.rainbowOffset}
               onChange={onSliderChange}
             />
             <Button

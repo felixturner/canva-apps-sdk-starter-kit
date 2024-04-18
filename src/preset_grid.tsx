@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Grid } from '@canva/app-ui-kit';
 import { Preset } from './preset';
-import { UIState } from './app';
 import none from 'assets/images/colormix/none.png';
 import rainbow from 'assets/images/colormix/rainbow.jpg';
 import amethyst from 'assets/images/colormix/amethyst.jpg';
@@ -16,7 +15,7 @@ export const PresetGrid = (props) => {
     {
       name: 'None',
       thumb: none,
-      state: {
+      params: {
         hueOffset: 0,
         saturation: 0,
         rainbowAmount: 0,
@@ -26,7 +25,7 @@ export const PresetGrid = (props) => {
     {
       name: 'Rainbow',
       thumb: rainbow,
-      state: {
+      params: {
         hueOffset: 0,
         saturation: 0,
         rainbowAmount: 0.5,
@@ -36,7 +35,7 @@ export const PresetGrid = (props) => {
     {
       name: 'Arctic',
       thumb: arctic,
-      state: {
+      params: {
         hueOffset: 1,
         saturation: 0.1,
         rainbowAmount: 0,
@@ -46,7 +45,7 @@ export const PresetGrid = (props) => {
     {
       name: 'Amethyst',
       thumb: amethyst,
-      state: {
+      params: {
         hueOffset: -0.6,
         saturation: 0.2,
         rainbowAmount: 0,
@@ -56,7 +55,7 @@ export const PresetGrid = (props) => {
     {
       name: 'Marmalade',
       thumb: marmalade,
-      state: {
+      params: {
         hueOffset: 0.3,
         saturation: 0.6,
         rainbowAmount: 0,
@@ -66,7 +65,7 @@ export const PresetGrid = (props) => {
     {
       name: 'Parakeet',
       thumb: parakeet,
-      state: {
+      params: {
         hueOffset: 0.8,
         saturation: 0.3,
         rainbowAmount: 0.2,
@@ -77,7 +76,7 @@ export const PresetGrid = (props) => {
   const [selectedPreset, setSelectedPreset] = React.useState(null);
   const onPresetClick = (index) => {
     setSelectedPreset(index);
-    handlePresetClick(presets[index].state);
+    handlePresetClick(presets[index].params);
   };
 
   return (
@@ -86,7 +85,6 @@ export const PresetGrid = (props) => {
         <Preset
           key={index}
           label={preset.name}
-          presetState={preset.state}
           onPresetClick={() => onPresetClick(index)}
           thumb={preset.thumb}
           selected={selectedPreset === index}

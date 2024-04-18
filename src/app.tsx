@@ -3,13 +3,15 @@ import { appProcess } from '@canva/preview/platform';
 import { ObjectPanel } from './object_panel';
 import { Overlay } from './overlay';
 
+//data going from ObjectPanel -> Overlay
 export type LaunchParams = {
   selectedImageMime: string;
   selectedImageUrl: string;
-  sliderParams: UIState;
+  effectParams: EffectParams;
 };
 
-export type UIState = {
+//slider parameters used in effect
+export type EffectParams = {
   hueOffset: number;
   saturation: number;
   rainbowAmount: number;

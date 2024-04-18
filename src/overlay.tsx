@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { AppProcessInfo } from 'sdk/preview/platform';
-import { LaunchParams, UIState } from './app';
+import { LaunchParams, EffectParams } from './app';
 import { upload } from '@canva/asset';
 import { useSelection } from 'utils/use_selection_hook';
 import { appProcess } from '@canva/preview/platform';
@@ -22,7 +22,7 @@ export const Overlay = (props: OverlayProps) => {
     if (!appContext.launchParams) {
       return;
     }
-    const { selectedImageUrl, selectedImageMime, sliderParams } =
+    const { selectedImageUrl, selectedImageMime, effectParams } =
       appContext.launchParams;
     //create canvas
     const canvas = canvasRef.current;
@@ -35,7 +35,7 @@ export const Overlay = (props: OverlayProps) => {
     initGL(canvas);
     loadImage(selectedImageUrl, selectedImageMime);
     //set inital params
-    setParams(sliderParams);
+    setParams(effectParams);
 
     // set up message handler
     return void appProcess.registerOnMessage((_, message) => {
@@ -43,7 +43,7 @@ export const Overlay = (props: OverlayProps) => {
         return;
       }
       //handle slider changes
-      setParams(message as UIState);
+      setParams(message as EffectParams);
     });
   }, []);
 
