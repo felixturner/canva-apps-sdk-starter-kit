@@ -34,12 +34,16 @@ export const HueSatShader = {
         dot(gl_FragColor.rgb, weights.yzx)
       );
 
-      // saturation
+      //limit max saturation
+      float sat2 = saturation;
+      if (saturation > 0.){
+        sat2 = saturation * 0.7;
+      }
       float average = (gl_FragColor.r + gl_FragColor.g + gl_FragColor.b) / 3.0;
       if (saturation > 0.0) {
-        gl_FragColor.rgb += (average - gl_FragColor.rgb) * (1.0 - 1.0 / (1.001 - saturation));
+        gl_FragColor.rgb += (average - gl_FragColor.rgb) * (1.0 - 1.0 / (1.001 - sat2));
       } else {
-        gl_FragColor.rgb += (average - gl_FragColor.rgb) * (-saturation);
+        gl_FragColor.rgb += (average - gl_FragColor.rgb) * (-sat2);
       }
     }
     `,
