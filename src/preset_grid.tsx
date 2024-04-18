@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Grid } from '@canva/app-ui-kit';
 import { Preset } from './preset';
+import { useSelection } from 'utils/use_selection_hook';
+
 import none from 'assets/images/colormix/none.png';
 import rainbow from 'assets/images/colormix/rainbow.jpg';
 import amethyst from 'assets/images/colormix/amethyst.jpg';
@@ -9,6 +11,7 @@ import marmalade from 'assets/images/colormix/marmalade.jpg';
 import parakeet from 'assets/images/colormix/parakeet.jpg';
 
 export const PresetGrid = (props) => {
+  const selection = useSelection('image');
   const { handlePresetClick } = props;
 
   const presets = [
@@ -73,11 +76,16 @@ export const PresetGrid = (props) => {
       },
     },
   ];
-  const [selectedPreset, setSelectedPreset] = React.useState(null);
+  const [selectedPresetIndex, setSelectedPresetIndex] = React.useState(0);
   const onPresetClick = (index) => {
-    setSelectedPreset(index);
+    setSelectedPresetIndex(index);
     handlePresetClick(presets[index].params);
   };
+
+  React.useEffect(() => {
+    //reset to default preset when selection changes
+    setSelectedPresetIndex(0);
+  }, [selection]);
 
   return (
     <Grid alignX="stretch" alignY="stretch" columns={3} spacing="1u">
@@ -87,7 +95,7 @@ export const PresetGrid = (props) => {
           label={preset.name}
           onPresetClick={() => onPresetClick(index)}
           thumb={preset.thumb}
-          selected={selectedPreset === index}
+          selected={selectedPresetIndex === index}
         />
       ))}
     </Grid>

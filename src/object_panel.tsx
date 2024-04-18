@@ -74,12 +74,14 @@ export const ObjectPanel = () => {
       setSVGError(true);
       return;
     }
+    //reset params (not immediate!!)
+    setParams(initialParams);
 
     open({
       launchParameters: {
         selectedImageUrl: url,
         selectedImageMime: mimeType,
-        effectParams: params,
+        effectParams: initialParams, //open with default params
       } satisfies LaunchParams,
     });
   };
