@@ -39,8 +39,9 @@ export const RainbowShader = {
       vec2 off = orig.rg - 0.5;
       p += off * offset;
       vec3 rb = rainbow2( (p.x + p.y) * 0.5);
+      rb *= orig.a;
       vec3 col = mix(orig.rgb,rb,amount);
-
+      col = clamp(col,0.,1.);
       gl_FragColor = vec4(col, orig.a);
     }
   `,
