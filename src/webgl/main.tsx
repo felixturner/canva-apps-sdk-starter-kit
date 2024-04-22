@@ -1,8 +1,9 @@
+import { appProcess } from '@canva/preview/platform';
+
 import * as THREE from 'three';
 import * as Composer from './fx/Composer.js';
 import { RainbowShader } from './fx/shaders/RainbowShader.js';
 import { HueSatShader } from './fx/shaders/HueSatShader.js';
-import { JitterShader } from './fx/shaders/JitterShader.js';
 
 let camera, scene, renderer;
 let quadMaterial;
@@ -44,6 +45,8 @@ export async function loadImage(url, _mimeType) {
   update();
   //show canvas after image loaded
   renderer.domElement.style.opacity = 1;
+  //tell object_panel to enable save button
+  appProcess.broadcastMessage('image-loaded');
 }
 
 export async function getOutput() {

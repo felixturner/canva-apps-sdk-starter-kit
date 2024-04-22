@@ -34,6 +34,7 @@ export const ObjectPanel = () => {
   const selection = useSelection('image');
   const [params, setParams] = React.useState<EffectParams>(initialParams);
   const [SVGError, setSVGError] = React.useState(false);
+  const [imageLoaded, setImageLoaded] = React.useState(false);
   const [multipleSelectionError, setMultipleSelectionError] =
     React.useState(false);
 
@@ -56,6 +57,7 @@ export const ObjectPanel = () => {
   };
 
   const openOverlay = async () => {
+    setImageLoaded(false);
     const draft = await selection.read();
     if (draft.contents.length !== 1) {
       return;
@@ -97,6 +99,16 @@ export const ObjectPanel = () => {
     }
     checkSelection();
   }, [selection]);
+
+  React.useEffect(() => {
+    // listen for if image is loaded in webgl to enable save button
+    return void appProcess.registerOnMessage((_, message) => {
+      if (!message) {
+        return;
+      }
+      if (message === 'image-loaded') setImageLoaded(true);
+    });
+  }, []);
 
   return (
     <div className={styles.scrollContainer}>
@@ -152,6 +164,7 @@ export const ObjectPanel = () => {
                 closeOverlay({ reason: 'completed' });
               }}
               stretch
+              disabled={!imageLoaded}
             >
               Save
             </Button>
