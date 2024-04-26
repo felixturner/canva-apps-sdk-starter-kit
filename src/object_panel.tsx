@@ -35,6 +35,8 @@ export const ObjectPanel = () => {
   const [params, setParams] = React.useState<EffectParams>(initialParams);
   const [SVGError, setSVGError] = React.useState(false);
   const [imageLoaded, setImageLoaded] = React.useState(false);
+  const [imageURL, setImageURL] = React.useState('');
+  const [mimeType, setMimeType] = React.useState('');
   const [multipleSelectionError, setMultipleSelectionError] =
     React.useState(false);
 
@@ -63,25 +65,12 @@ export const ObjectPanel = () => {
       return;
     }
 
-    //download image and check mimeType
-    const { url } = await getTemporaryUrl({
-      type: 'IMAGE',
-      ref: draft.contents[0].ref,
-    });
-    const response = await fetch(url, { mode: 'cors' });
-    const imageBlob = await response.blob();
-    const mimeType = imageBlob.type;
-    //webGL can't load SVG
-    if (!isSupportedMimeType(mimeType)) {
-      setSVGError(true);
-      return;
-    }
     //reset params (not immediate!!)
     setParams(initialParams);
 
     open({
       launchParameters: {
-        selectedImageUrl: url,
+        selectedImageUrl: imageURL,
         selectedImageMime: mimeType,
         effectParams: initialParams, //open with default params
       } satisfies LaunchParams,
@@ -89,13 +78,32 @@ export const ObjectPanel = () => {
   };
 
   React.useEffect(() => {
-    setSVGError(false);
-    setMultipleSelectionError(false);
     async function checkSelection() {
+      setMultipleSelectionError(false);
+      setSVGError(false);
       const draft = await selection.read();
+      if (draft.contents.length === 0) {
+        return;
+      }
+      //check for single image
       if (draft.contents.length > 1) {
         setMultipleSelectionError(true);
       }
+      //download image and check mimeType
+      const { url } = await getTemporaryUrl({
+        type: 'IMAGE',
+        ref: draft.contents[0].ref,
+      });
+      const response = await fetch(url, { mode: 'cors' });
+      const imageBlob = await response.blob();
+      const mimeType = imageBlob.type;
+      //webGL can't load SVG
+      if (!isSupportedMimeType(mimeType)) {
+        setSVGError(true);
+        return;
+      }
+      setImageURL(url);
+      setMimeType(mimeType);
     }
     checkSelection();
   }, [selection]);
@@ -179,6 +187,14 @@ export const ObjectPanel = () => {
         ) : (
           <>
             <Rows spacing="2u">
+              {SVGError && (
+                <Alert tone="critical">
+                  Select a JPG or PNG image to proceed.
+                </Alert>
+              )}
+              {multipleSelectionError && (
+                <Alert tone="critical">Select a single image to proceed.</Alert>
+              )}
               <Text size="medium">Select an image to start editing</Text>
               <Button
                 variant="primary"
@@ -188,15 +204,6 @@ export const ObjectPanel = () => {
               >
                 Edit image
               </Button>
-              {SVGError && (
-                <Alert tone="critical">
-                  ColorMix cannot load SVG images. Please load JPG or PNG
-                  images.
-                </Alert>
-              )}
-              {multipleSelectionError && (
-                <Alert tone="critical">Select a single image to proceed.</Alert>
-              )}
             </Rows>
           </>
         )}
