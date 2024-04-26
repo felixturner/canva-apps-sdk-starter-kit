@@ -33,10 +33,11 @@ export const ObjectPanel = () => {
   } = useOverlay('image_selection');
   const selection = useSelection('image');
   const [params, setParams] = React.useState<EffectParams>(initialParams);
-  const [SVGError, setSVGError] = React.useState(false);
-  const [imageLoaded, setImageLoaded] = React.useState(false);
-  const [imageURL, setImageURL] = React.useState('');
-  const [mimeType, setMimeType] = React.useState('');
+  const [SVGError, setSVGError] = React.useState<boolean>(false);
+  const [imageLoaded, setImageLoaded] = React.useState<boolean>(false);
+  const [imageURL, setImageURL] = React.useState<string>('');
+  const [mimeType, setMimeType] = React.useState<string>('');
+  const [imageBlob, setImageBlob] = React.useState<Blob>();
   const [multipleSelectionError, setMultipleSelectionError] =
     React.useState(false);
 
@@ -70,8 +71,8 @@ export const ObjectPanel = () => {
 
     open({
       launchParameters: {
-        selectedImageUrl: imageURL,
-        selectedImageMime: mimeType,
+        imageBlob: imageBlob,
+        mimeType: mimeType,
         effectParams: initialParams, //open with default params
       } satisfies LaunchParams,
     });
@@ -102,6 +103,7 @@ export const ObjectPanel = () => {
         setSVGError(true);
         return;
       }
+      setImageBlob(imageBlob);
       setImageURL(url);
       setMimeType(mimeType);
     }

@@ -5,8 +5,8 @@ import { Overlay } from './overlay';
 
 //data going from ObjectPanel -> Overlay
 export type LaunchParams = {
-  selectedImageMime: string;
-  selectedImageUrl: string;
+  imageBlob: Blob | undefined;
+  mimeType: string;
   effectParams: EffectParams;
 };
 

@@ -35,10 +35,11 @@ export async function initGL(canvas) {
 }
 
 //load an image into webgl
-export async function loadImage(url, _mimeType) {
+export async function loadImage(blob, _mimeType) {
   //save mimeType for export
   mimeType = _mimeType;
-  const texture = await new THREE.TextureLoader().loadAsync(url);
+  const imgURL = URL.createObjectURL(blob);
+  const texture = await new THREE.TextureLoader().loadAsync(imgURL);
   resizeCanvas(texture.image.width, texture.image.height);
   quadMaterial.map = texture;
   quadMaterial.needsUpdate = true;

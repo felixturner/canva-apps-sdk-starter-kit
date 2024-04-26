@@ -22,8 +22,7 @@ export const Overlay = (props: OverlayProps) => {
     if (!appContext.launchParams) {
       return;
     }
-    const { selectedImageUrl, selectedImageMime, effectParams } =
-      appContext.launchParams;
+    const { imageBlob, mimeType, effectParams } = appContext.launchParams;
     //create canvas
     const canvas = canvasRef.current;
     if (!canvas) {
@@ -33,7 +32,7 @@ export const Overlay = (props: OverlayProps) => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     initGL(canvas);
-    loadImage(selectedImageUrl, selectedImageMime);
+    loadImage(imageBlob, mimeType);
     //set inital params
     setParams(effectParams);
 
