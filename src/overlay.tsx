@@ -57,6 +57,8 @@ export const Overlay = (props: OverlayProps) => {
         return;
       } else if (reason === 'completed') {
         //SAVE WEBGL CANVAS HERE
+        //tell object_panel to show spinner
+        appProcess.broadcastMessage('save-start');
         const output = await getOutput();
         const draft = await selection.read();
         const queueImage = await upload({
@@ -70,6 +72,7 @@ export const Overlay = (props: OverlayProps) => {
         });
         draft.contents[0].ref = queueImage.ref;
         await draft.save();
+        appProcess.broadcastMessage('save-end');
       }
     });
   }, [selection]);

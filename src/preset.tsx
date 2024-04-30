@@ -2,7 +2,7 @@ import { Box, Text, ImageCard, Title, Rows } from '@canva/app-ui-kit';
 import * as React from 'react';
 
 export const Preset = (props) => {
-  const { label, onPresetClick, thumb, selected } = props;
+  const { label, onPresetClick, thumb, selected, disabled } = props;
 
   return (
     <Box borderRadius="none">
@@ -11,10 +11,10 @@ export const Preset = (props) => {
           alt={label}
           ariaLabel={label}
           borderRadius="standard"
-          onClick={onPresetClick}
+          onClick={!disabled ? onPresetClick : null}
           thumbnailUrl={thumb}
           thumbnailHeight={100}
-          selectable={true}
+          selectable={!disabled}
           selected={selected}
         />
         <Text size="small" alignment="center">

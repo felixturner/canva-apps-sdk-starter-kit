@@ -12,7 +12,7 @@ import parakeet from 'assets/images/colormix/parakeet.jpg';
 
 export const PresetGrid = (props) => {
   const selection = useSelection('image');
-  const { handlePresetClick } = props;
+  const { handlePresetClick, disabled } = props;
 
   const presets = [
     {
@@ -96,6 +96,7 @@ export const PresetGrid = (props) => {
           onPresetClick={() => onPresetClick(index)}
           thumb={preset.thumb}
           selected={selectedPresetIndex === index}
+          disabled={disabled}
         />
       ))}
     </Grid>

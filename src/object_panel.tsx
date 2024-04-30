@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Rows, Button, Text, Alert } from '@canva/app-ui-kit';
+import { Rows, Button, Alert, LoadingIndicator } from '@canva/app-ui-kit';
 import styles from 'styles/components.css';
 import { appProcess } from '@canva/preview/platform';
 import { useOverlay } from 'utils/use_overlay_hook';
@@ -33,17 +33,21 @@ export const ObjectPanel = () => {
   } = useOverlay('image_selection');
   const selection = useSelection('image');
   const [params, setParams] = React.useState<EffectParams>(initialParams);
-  const [SVGError, setSVGError] = React.useState<boolean>(false);
+  const [isSVGSelected, setIsSVGSelected] = React.useState<boolean>(false);
+  const [isNothingSelected, setIsNothingSelected] =
+    React.useState<boolean>(false);
+  const [isMultipleSelected, setIsMultipleSelected] = React.useState(false);
   const [imageLoaded, setImageLoaded] = React.useState<boolean>(false);
-  const [imageURL, setImageURL] = React.useState<string>('');
-  const [mimeType, setMimeType] = React.useState<string>('');
-  const [imageBlob, setImageBlob] = React.useState<Blob>();
-  const [multipleSelectionError, setMultipleSelectionError] =
-    React.useState(false);
+  const [isSaving, setIsSaving] = React.useState<boolean>(false);
 
   const handlePresetClick = (presetParams) => {
     setParams(presetParams);
     appProcess.broadcastMessage(presetParams);
+  };
+
+  const handleResetClick = () => {
+    setParams(initialParams);
+    appProcess.broadcastMessage(initialParams);
   };
 
   const onSliderChange = (paramName, value) => {
@@ -59,37 +63,24 @@ export const ObjectPanel = () => {
     });
   };
 
-  const openOverlay = async () => {
-    setImageLoaded(false);
-    const draft = await selection.read();
-    if (draft.contents.length !== 1) {
-      return;
-    }
-
-    //reset params (not immediate!!)
-    setParams(initialParams);
-
-    open({
-      launchParameters: {
-        imageBlob: imageBlob,
-        mimeType: mimeType,
-        effectParams: initialParams, //open with default params
-      } satisfies LaunchParams,
-    });
-  };
-
   React.useEffect(() => {
     async function checkSelection() {
-      setMultipleSelectionError(false);
-      setSVGError(false);
+      console.log('CHECK SELECTION');
       const draft = await selection.read();
+      setIsSVGSelected(false);
+      setIsMultipleSelected(false);
+      //check for no selection
       if (draft.contents.length === 0) {
+        setIsNothingSelected(true);
         return;
       }
-      //check for single image
+      //check for multiple images
       if (draft.contents.length > 1) {
-        setMultipleSelectionError(true);
+        setIsMultipleSelected(true);
+        setIsNothingSelected(false);
+        return;
       }
+
       //download image and check mimeType
       const { url } = await getTemporaryUrl({
         type: 'IMAGE',
@@ -100,12 +91,28 @@ export const ObjectPanel = () => {
       const mimeType = imageBlob.type;
       //webGL can't load SVG
       if (!isSupportedMimeType(mimeType)) {
-        setSVGError(true);
+        setIsSVGSelected(true);
+        setIsNothingSelected(false);
         return;
       }
-      setImageBlob(imageBlob);
-      setImageURL(url);
-      setMimeType(mimeType);
+
+      if (draft.contents.length === 1) {
+        setIsNothingSelected(false);
+        //OPEN OVERLAY
+        setImageLoaded(false);
+        //reset params (not immediate!!)
+        setParams(initialParams);
+        console.log('OPEN OVERLAY');
+        open({
+          launchParameters: {
+            imageBlob: imageBlob,
+            mimeType: mimeType,
+            effectParams: initialParams, //open with default params
+          } satisfies LaunchParams,
+        });
+
+        return;
+      }
     }
     checkSelection();
   }, [selection]);
@@ -116,99 +123,100 @@ export const ObjectPanel = () => {
       if (!message) {
         return;
       }
+
+      console.log('MESSAGEE', message);
       if (message === 'image-loaded') setImageLoaded(true);
+      //FIXME - doesnt work
+      if (message === 'saveStart') setIsSaving(true);
+      if (message === 'saveEnd') setIsSaving(false);
     });
   }, []);
 
   return (
     <div className={styles.scrollContainer}>
       <Rows spacing="1u">
-        {isOpen ? (
-          <>
-            <PresetGrid handlePresetClick={handlePresetClick} />
-            <ParamSlider
-              label="Hue offset"
-              paramName="hueOffset"
-              min="-1"
-              max="1"
-              step="0.01"
-              origin="0"
-              defaultValue={initialParams.hueOffset}
-              value={params.hueOffset}
-              onChange={onSliderChange}
-            />
-            <ParamSlider
-              label="Saturation"
-              paramName="saturation"
-              min="-1"
-              max="1"
-              step="0.01"
-              origin="0"
-              defaultValue={initialParams.saturation}
-              value={params.saturation}
-              onChange={onSliderChange}
-            />
-            <ParamSlider
-              label="Rainbow amount"
-              paramName="rainbowAmount"
-              min="0"
-              max="0.8"
-              step="0.01"
-              defaultValue={initialParams.rainbowAmount}
-              value={params.rainbowAmount}
-              onChange={onSliderChange}
-            />
-            <ParamSlider
-              label="Rainbow offset"
-              paramName="rainbowOffset"
-              min="0"
-              max="2"
-              step="0.01"
-              defaultValue={initialParams.rainbowOffset}
-              value={params.rainbowOffset}
-              onChange={onSliderChange}
-            />
-            <Button
-              variant="primary"
-              onClick={() => {
-                closeOverlay({ reason: 'completed' });
-              }}
-              stretch
-              disabled={!imageLoaded}
-            >
-              Save
-            </Button>
-            <Button
-              variant="secondary"
-              onClick={() => closeOverlay({ reason: 'aborted' })}
-              stretch
-            >
-              Cancel
-            </Button>
-          </>
-        ) : (
-          <>
-            <Rows spacing="2u">
-              {SVGError && (
-                <Alert tone="critical">
-                  Select a JPG or PNG image to proceed.
-                </Alert>
-              )}
-              {multipleSelectionError && (
-                <Alert tone="critical">Select a single image to proceed.</Alert>
-              )}
-              <Text size="medium">Select an image to start editing</Text>
-              <Button
-                variant="primary"
-                onClick={openOverlay}
-                disabled={!canOpen}
-                stretch
-              >
-                Edit image
-              </Button>
-            </Rows>
-          </>
-        )}
+        <>
+          {isNothingSelected && (
+            <Alert tone="info">
+              Select an image to start mixing its colors.
+            </Alert>
+          )}
+          {isSVGSelected && (
+            <Alert tone="critical">Select a JPG or PNG image to proceed.</Alert>
+          )}
+          {isMultipleSelected && (
+            <Alert tone="critical">Select a single image to proceed.</Alert>
+          )}
+          <PresetGrid
+            handlePresetClick={handlePresetClick}
+            disabled={!isOpen}
+          />
+          <ParamSlider
+            label="Hue offset"
+            paramName="hueOffset"
+            min="-1"
+            max="1"
+            step="0.01"
+            origin="0"
+            defaultValue={initialParams.hueOffset}
+            value={params.hueOffset}
+            onChange={onSliderChange}
+            disabled={!isOpen}
+          />
+          <ParamSlider
+            label="Saturation"
+            paramName="saturation"
+            min="-1"
+            max="1"
+            step="0.01"
+            origin="0"
+            defaultValue={initialParams.saturation}
+            value={params.saturation}
+            onChange={onSliderChange}
+            disabled={!isOpen}
+          />
+          <ParamSlider
+            label="Rainbow amount"
+            paramName="rainbowAmount"
+            min="0"
+            max="0.8"
+            step="0.01"
+            defaultValue={initialParams.rainbowAmount}
+            value={params.rainbowAmount}
+            onChange={onSliderChange}
+            disabled={!isOpen}
+          />
+          <ParamSlider
+            label="Rainbow offset"
+            paramName="rainbowOffset"
+            min="0"
+            max="2"
+            step="0.01"
+            defaultValue={initialParams.rainbowOffset}
+            value={params.rainbowOffset}
+            onChange={onSliderChange}
+            disabled={!isOpen}
+          />
+          <Button
+            variant="primary"
+            onClick={() => {
+              closeOverlay({ reason: 'completed' });
+            }}
+            stretch
+            disabled={!imageLoaded || !isOpen}
+            loading={isSaving}
+          >
+            Apply
+          </Button>
+          <Button
+            variant="secondary"
+            onClick={handleResetClick}
+            stretch
+            disabled={!isOpen}
+          >
+            Reset
+          </Button>
+        </>
       </Rows>
     </div>
   );

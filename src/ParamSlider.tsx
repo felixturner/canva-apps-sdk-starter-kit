@@ -12,6 +12,7 @@ export const ParamSlider = (props) => {
     defaultValue,
     value,
     onChange,
+    disabled,
   } = props;
 
   const handleSliderChange = (value) => {
@@ -29,6 +30,7 @@ export const ParamSlider = (props) => {
             step={step}
             value={value}
             origin={origin}
+            disabled={disabled}
             onChange={handleSliderChange}
           />
         </Box>
