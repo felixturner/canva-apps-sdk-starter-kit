@@ -127,8 +127,8 @@ export const ObjectPanel = () => {
       console.log('MESSAGEE', message);
       if (message === 'image-loaded') setImageLoaded(true);
       //FIXME - doesnt work
-      if (message === 'saveStart') setIsSaving(true);
-      if (message === 'saveEnd') setIsSaving(false);
+      if (message === 'save-start') setIsSaving(true);
+      if (message === 'save-end') setIsSaving(false);
     });
   }, []);
 
