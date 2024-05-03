@@ -151,71 +151,75 @@ export const ObjectPanel = () => {
             handlePresetClick={handlePresetClick}
             disabled={!isOpen}
           />
-          <ParamSlider
-            label="Hue offset"
-            paramName="hueOffset"
-            min="-1"
-            max="1"
-            step="0.01"
-            origin="0"
-            defaultValue={initialParams.hueOffset}
-            value={params.hueOffset}
-            onChange={onSliderChange}
-            disabled={!isOpen}
-          />
-          <ParamSlider
-            label="Saturation"
-            paramName="saturation"
-            min="-1"
-            max="1"
-            step="0.01"
-            origin="0"
-            defaultValue={initialParams.saturation}
-            value={params.saturation}
-            onChange={onSliderChange}
-            disabled={!isOpen}
-          />
-          <ParamSlider
-            label="Rainbow amount"
-            paramName="rainbowAmount"
-            min="0"
-            max="0.8"
-            step="0.01"
-            defaultValue={initialParams.rainbowAmount}
-            value={params.rainbowAmount}
-            onChange={onSliderChange}
-            disabled={!isOpen}
-          />
-          <ParamSlider
-            label="Rainbow offset"
-            paramName="rainbowOffset"
-            min="0"
-            max="2"
-            step="0.01"
-            defaultValue={initialParams.rainbowOffset}
-            value={params.rainbowOffset}
-            onChange={onSliderChange}
-            disabled={!isOpen}
-          />
-          <Button
-            variant="primary"
-            onClick={() => {
-              closeOverlay({ reason: 'completed' });
-            }}
-            stretch
-            disabled={!imageLoaded || !isOpen}
-            loading={isSaving}
-          >
-            Apply
-          </Button>
-          <Button
-            variant="secondary"
-            onClick={handleResetClick}
-            stretch
-            disabled={!isOpen}
-          >
-            Reset
-          </Button>
+          {!isNothingSelected && !isMultipleSelected && (
+            <>
+              <ParamSlider
+                label="Hue offset"
+                paramName="hueOffset"
+                min="-1"
+                max="1"
+                step="0.01"
+                origin="0"
+                defaultValue={initialParams.hueOffset}
+                value={params.hueOffset}
+                onChange={onSliderChange}
+                disabled={!isOpen}
+              />
+              <ParamSlider
+                label="Saturation"
+                paramName="saturation"
+                min="-1"
+                max="1"
+                step="0.01"
+                origin="0"
+                defaultValue={initialParams.saturation}
+                value={params.saturation}
+                onChange={onSliderChange}
+                disabled={!isOpen}
+              />
+              <ParamSlider
+                label="Rainbow amount"
+                paramName="rainbowAmount"
+                min="0"
+                max="0.8"
+                step="0.01"
+                defaultValue={initialParams.rainbowAmount}
+                value={params.rainbowAmount}
+                onChange={onSliderChange}
+                disabled={!isOpen}
+              />
+              <ParamSlider
+                label="Rainbow offset"
+                paramName="rainbowOffset"
+                min="0"
+                max="2"
+                step="0.01"
+                defaultValue={initialParams.rainbowOffset}
+                value={params.rainbowOffset}
+                onChange={onSliderChange}
+                disabled={!isOpen}
+              />
+              <Button
+                variant="primary"
+                onClick={() => {
+                  closeOverlay({ reason: 'completed' });
+                }}
+                stretch
+                disabled={!imageLoaded || !isOpen}
+                loading={isSaving}
+              >
+                Apply
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={handleResetClick}
+                stretch
+                disabled={!isOpen}
+              >
+                Reset
+              </Button>
+            </>
+          )}
         </>
       </Rows>
     </div>
