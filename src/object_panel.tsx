@@ -16,14 +16,6 @@ const initialParams: EffectParams = {
   rainbowOffset: 0,
 };
 
-function isSupportedMimeType(
-  input: string
-): input is 'image/jpeg' | 'image/heic' | 'image/png' | 'image/webp' {
-  // This does not include "image/svg+xml"
-  const mimeTypes = ['image/jpeg', 'image/heic', 'image/png', 'image/webp'];
-  return mimeTypes.includes(input);
-}
-
 export const ObjectPanel = () => {
   const {
     canOpen,
@@ -33,21 +25,31 @@ export const ObjectPanel = () => {
   } = useOverlay('image_selection');
   const selection = useSelection('image');
   const [params, setParams] = React.useState<EffectParams>(initialParams);
-  const [isSVGSelected, setIsSVGSelected] = React.useState<boolean>(false);
   const [isNothingSelected, setIsNothingSelected] =
     React.useState<boolean>(false);
   const [isMultipleSelected, setIsMultipleSelected] = React.useState(false);
   const [imageLoaded, setImageLoaded] = React.useState<boolean>(false);
   const [isSaving, setIsSaving] = React.useState<boolean>(false);
+  const [isValidSelection, setIsValidSelection] =
+    React.useState<boolean>(false);
+  const [imageBlob, setImageBlob] = React.useState<Blob | undefined>();
+  const [mimeType, setMimeType] = React.useState<string>('');
 
   const handlePresetClick = (presetParams) => {
+    if (!isOpen) {
+      //OPEN OVERLAY
+      setImageLoaded(false);
+      open({
+        launchParameters: {
+          imageBlob: imageBlob,
+          mimeType: mimeType,
+          effectParams: presetParams, //open with default params
+        } satisfies LaunchParams,
+      });
+    }
+
     setParams(presetParams);
     appProcess.broadcastMessage(presetParams);
-  };
-
-  const handleResetClick = () => {
-    setParams(initialParams);
-    appProcess.broadcastMessage(initialParams);
   };
 
   const onSliderChange = (paramName, value) => {
@@ -65,10 +67,9 @@ export const ObjectPanel = () => {
 
   React.useEffect(() => {
     async function checkSelection() {
-      console.log('CHECK SELECTION');
       const draft = await selection.read();
-      setIsSVGSelected(false);
       setIsMultipleSelected(false);
+      setIsValidSelection(false);
       //check for no selection
       if (draft.contents.length === 0) {
         setIsNothingSelected(true);
@@ -89,28 +90,12 @@ export const ObjectPanel = () => {
       const response = await fetch(url, { mode: 'cors' });
       const imageBlob = await response.blob();
       const mimeType = imageBlob.type;
-      //webGL can't load SVG
-      if (!isSupportedMimeType(mimeType)) {
-        setIsSVGSelected(true);
-        setIsNothingSelected(false);
-        return;
-      }
+      setImageBlob(imageBlob);
+      setMimeType(mimeType);
 
       if (draft.contents.length === 1) {
         setIsNothingSelected(false);
-        //OPEN OVERLAY
-        setImageLoaded(false);
-        //reset params (not immediate!!)
-        setParams(initialParams);
-        console.log('OPEN OVERLAY');
-        open({
-          launchParameters: {
-            imageBlob: imageBlob,
-            mimeType: mimeType,
-            effectParams: initialParams, //open with default params
-          } satisfies LaunchParams,
-        });
-
+        setIsValidSelection(true);
         return;
       }
     }
@@ -124,11 +109,12 @@ export const ObjectPanel = () => {
         return;
       }
 
-      console.log('MESSAGEE', message);
       if (message === 'image-loaded') setImageLoaded(true);
-      //FIXME - doesnt work
-      if (message === 'save-start') setIsSaving(true);
-      if (message === 'save-end') setIsSaving(false);
+
+      if (message === 'overlay-closed') {
+        //overlay was closed reset preset to 'none'
+        setParams(initialParams);
+      }
     });
   }, []);
 
@@ -137,21 +123,19 @@ export const ObjectPanel = () => {
       <Rows spacing="1u">
         <>
           {isNothingSelected && (
-            <Alert tone="info">
-              Select an image to start mixing its colors.
-            </Alert>
+            <Alert tone="info">Select an image to apply an effect.</Alert>
           )}
-          {isSVGSelected && (
-            <Alert tone="critical">Select a JPG or PNG image to proceed.</Alert>
-          )}
+
           {isMultipleSelected && (
-            <Alert tone="critical">Select a single image to proceed.</Alert>
+            <Alert tone="critical">
+              Select a single image to apply an effect.
+            </Alert>
           )}
           <PresetGrid
             handlePresetClick={handlePresetClick}
-            disabled={!isOpen}
+            disabled={!isValidSelection}
           />
-          {!isNothingSelected && !isMultipleSelected && (
+          {isOpen && (
             <>
               <ParamSlider
                 label="Hue offset"
@@ -208,15 +192,17 @@ export const ObjectPanel = () => {
                 disabled={!imageLoaded || !isOpen}
                 loading={isSaving}
               >
-                Apply
+                Save
               </Button>
               <Button
                 variant="secondary"
-                onClick={handleResetClick}
+                onClick={() => {
+                  closeOverlay({ reason: 'aborted' });
+                }}
                 stretch
                 disabled={!isOpen}
               >
-                Reset
+                Cancel
               </Button>
             </>
           )}

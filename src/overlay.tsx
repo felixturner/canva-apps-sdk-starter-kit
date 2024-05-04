@@ -53,6 +53,7 @@ export const Overlay = (props: OverlayProps) => {
     }
 
     return void appProcess.current.setOnDispose(async ({ reason }) => {
+      appProcess.broadcastMessage('overlay-closed');
       if (reason === 'aborted') {
         return;
       } else if (reason === 'completed') {

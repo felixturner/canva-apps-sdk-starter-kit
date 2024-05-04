@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Grid } from '@canva/app-ui-kit';
 import { Preset } from './preset';
 import { useSelection } from 'utils/use_selection_hook';
+import { appProcess } from '@canva/preview/platform';
 
 import none from 'assets/images/colormix/none.png';
 import rainbow from 'assets/images/colormix/rainbow.jpg';
@@ -86,6 +87,18 @@ export const PresetGrid = (props) => {
     //reset to default preset when selection changes
     setSelectedPresetIndex(0);
   }, [selection]);
+
+  React.useEffect(() => {
+    return void appProcess.registerOnMessage((_, message) => {
+      if (!message) {
+        return;
+      }
+      if (message === 'overlay-closed') {
+        //reset to default preset when overlay closed
+        setSelectedPresetIndex(0);
+      }
+    });
+  }, []);
 
   return (
     <Grid alignX="stretch" alignY="stretch" columns={3} spacing="1u">
