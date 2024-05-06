@@ -111,10 +111,10 @@ export const ObjectPanel = () => {
 
       if (message === 'image-loaded') setImageLoaded(true);
 
-      if (message === 'overlay-closed') {
-        //overlay was closed reset preset to 'none'
-        setParams(initialParams);
-      }
+      // if (message === 'overlay-closed') {
+      //   //overlay was closed reset preset to 'none'
+      //   setParams(initialParams);
+      // }
     });
   }, []);
 

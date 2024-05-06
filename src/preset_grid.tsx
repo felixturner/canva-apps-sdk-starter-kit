@@ -88,17 +88,17 @@ export const PresetGrid = (props) => {
     setSelectedPresetIndex(0);
   }, [selection]);
 
-  React.useEffect(() => {
-    return void appProcess.registerOnMessage((_, message) => {
-      if (!message) {
-        return;
-      }
-      if (message === 'overlay-closed') {
-        //reset to default preset when overlay closed
-        setSelectedPresetIndex(0);
-      }
-    });
-  }, []);
+  // React.useEffect(() => {
+  //   return void appProcess.registerOnMessage((_, message) => {
+  //     if (!message) {
+  //       return;
+  //     }
+  //     if (message === 'overlay-closed') {
+  //       //reset to default preset when overlay closed
+  //       setSelectedPresetIndex(0);
+  //     }
+  //   });
+  // }, []);
 
   return (
     <Grid alignX="stretch" alignY="stretch" columns={3} spacing="1u">
