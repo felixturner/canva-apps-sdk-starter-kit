@@ -31,10 +31,14 @@ export const Preset = (props) => {
             thumbnailHeight={undefined}
             selectable={!disabled}
             selected={selected}
-            disabled="true"
+            disabled={disabled}
           />
         </div>
-        <Text size="small" alignment="center">
+        <Text
+          size="small"
+          alignment="center"
+          tone={disabled ? 'tertiary' : 'primary'}
+        >
           {label}
         </Text>
       </Rows>
