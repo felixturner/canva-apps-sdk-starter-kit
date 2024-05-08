@@ -39,7 +39,7 @@ export const Preset = (props) => {
             borderRadius="standard"
             onClick={!disabled ? onPresetClick : null}
             thumbnailUrl={thumb}
-            thumbnailHeight={100}
+            thumbnailHeight={undefined}
             selectable={!disabled}
             selected={selected}
           />
