@@ -7,6 +7,7 @@ import {
   SlidersIcon,
 } from '@canva/app-ui-kit';
 import * as React from 'react';
+import { IconButton } from './icon_button';
 
 export const Preset = (props) => {
   const { label, onPresetClick, thumb, selected, disabled } = props;
@@ -19,20 +20,8 @@ export const Preset = (props) => {
             position: 'relative',
           }}
         >
-          <div
-            style={{
-              position: 'absolute',
-              width: '100px',
-              height: '100px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              zIndex: '2',
-              pointerEvents: 'none',
-            }}
-          >
-            {!disabled && selected && <SlidersIcon />}
-          </div>
+          {!disabled && selected && <IconButton />}
+
           <ImageCard
             alt={label}
             ariaLabel={label}
@@ -42,6 +31,7 @@ export const Preset = (props) => {
             thumbnailHeight={undefined}
             selectable={!disabled}
             selected={selected}
+            disabled="true"
           />
         </div>
         <Text size="small" alignment="center">
