@@ -138,9 +138,9 @@ export const ObjectPanel = () => {
           {isOpen && (
             <>
               <ParamSlider
-                label="RGB split amount"
+                label="RGB shift amount"
                 paramName="rgbAmount"
-                min="-1"
+                min="0"
                 max="1"
                 step="0.01"
                 origin="0"
@@ -150,9 +150,9 @@ export const ObjectPanel = () => {
                 disabled={!isOpen}
               />
               <ParamSlider
-                label="RGB split angle"
+                label="RGB shift angle"
                 paramName="rgbAngle"
-                min="-1"
+                min="0"
                 max="1"
                 step="0.01"
                 origin="0"
@@ -162,10 +162,10 @@ export const ObjectPanel = () => {
                 disabled={!isOpen}
               />
               <ParamSlider
-                label="Jitter amount"
+                label="Jitter"
                 paramName="jitterAmount"
                 min="0"
-                max="0.8"
+                max="1"
                 step="0.01"
                 defaultValue={initialParams.jitterAmount}
                 value={params.jitterAmount}
@@ -173,10 +173,10 @@ export const ObjectPanel = () => {
                 disabled={!isOpen}
               />
               <ParamSlider
-                label="Solarize amount"
+                label="Solarize"
                 paramName="solarizeAmount"
                 min="0"
-                max="2"
+                max="1"
                 step="0.01"
                 defaultValue={initialParams.solarizeAmount}
                 value={params.solarizeAmount}

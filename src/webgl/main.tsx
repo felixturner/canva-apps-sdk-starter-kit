@@ -29,9 +29,9 @@ export async function initGL(canvas) {
 
   Composer.init(renderer);
   Composer.addRenderPass(scene, camera);
+  solarizePass = Composer.addShaderPass(SolarizeShader);
   rgbPass = Composer.addShaderPass(RGBShiftShader);
   jitterPass = Composer.addShaderPass(JitterShader);
-  solarizePass = Composer.addShaderPass(SolarizeShader);
 
   update();
 }
