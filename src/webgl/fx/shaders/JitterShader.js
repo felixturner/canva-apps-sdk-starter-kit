@@ -52,10 +52,10 @@ export const JitterShader = {
       vec2 uv = vUv;
 
       float sTime = seed;
-      vec3 inCol = texture2D(tDiffuse, uv).rgb;
+      vec4 orig = texture2D(tDiffuse, uv);
       
       //copy orig
-      vec3 outCol = inCol;
+      vec4 outCol = orig;
 
       float amount2 = amount/2.;
       
@@ -75,7 +75,7 @@ export const JitterShader = {
         uvOff.x += hOffset;
         vec2 uvOff = fract(uvOff);
         if (insideRange(uv.y, sliceY, fract(sliceY+sliceH)) == 1.0 ){
-          outCol = texture2D(tDiffuse, uvOff).rgb;
+          outCol = texture2D(tDiffuse, uvOff);
         }
       }
     
@@ -94,7 +94,7 @@ export const JitterShader = {
       } else{
         outCol.b = texture2D(tDiffuse, uvOff).b;
       }
-      gl_FragColor = vec4(outCol,1.0);
+      gl_FragColor = vec4(outCol);
   }
   `,
 };

@@ -40,11 +40,22 @@ export const RGBShiftShader = {
 
     void main() {
 
+      vec4 orig = texture2D(tDiffuse, vUv);
+
       vec2 offset = amount * 0.1 * vec2( cos(angle * TAU), sin(angle * TAU));
-      float r = texture2D(tDiffuse, vUv + offset).r;
-      float g = texture2D(tDiffuse, vUv).g;
-      float b = texture2D(tDiffuse, vUv - offset).b;
-      gl_FragColor = vec4(r, g, b, 1.0);
+      vec4 r = texture2D(tDiffuse, vUv + offset);
+      vec4 g = orig;
+      vec4 b = texture2D(tDiffuse, vUv - offset);
+      //premult alpha
+      r.rgb *=  r.a;
+      g.rgb *=  g.a;
+      b.rgb *=  b.a;
+      vec3 outCol = vec3(r.r,g.g,b.b); 
+      
+      //use highest alpha so red offsets on transparent don't get lost
+      float alpha = max(r.a, max(g.a, b.a));
+
+      gl_FragColor = vec4(outCol, alpha);
 
     }`,
 };

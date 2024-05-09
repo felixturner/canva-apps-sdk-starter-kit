@@ -47,10 +47,10 @@ export const SolarizeShader = {
     }
 
     void main() {
-        vec3 origCol = texture2D( tDiffuse, vUv ).rgb;
+        vec4 orig = texture2D( tDiffuse, vUv );
 
         //	convert to HSV
-        vec3 hslColor = rgb2hsv(origCol);
+        vec3 hslColor = rgb2hsv(orig.rgb);
         vec3 outColor = hslColor;
         
         //	adjust the brightness curve
@@ -61,9 +61,9 @@ export const SolarizeShader = {
         //	convert back to rgb
         outColor = hsv2rgb(outColor);
 
-        outColor = mix(origCol, outColor,amount);
+        outColor = mix(orig.rgb, outColor,amount);
         
-        gl_FragColor = vec4(outColor, 1.0);
+        gl_FragColor = vec4(outColor, orig.a);
     }
 `,
 };
