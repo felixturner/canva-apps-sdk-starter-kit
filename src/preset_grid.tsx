@@ -2,14 +2,13 @@ import * as React from 'react';
 import { Grid } from '@canva/app-ui-kit';
 import { Preset } from './preset';
 import { useSelection } from 'utils/use_selection_hook';
-import { appProcess } from '@canva/preview/platform';
 
-import none from 'assets/images/colormix/none.png';
-import rainbow from 'assets/images/colormix/rainbow.jpg';
-import amethyst from 'assets/images/colormix/amethyst.jpg';
-import arctic from 'assets/images/colormix/arctic.jpg';
-import marmalade from 'assets/images/colormix/marmalade.jpg';
-import parakeet from 'assets/images/colormix/parakeet.jpg';
+import none from 'assets/images/trippy/none.jpg';
+import split from 'assets/images/trippy/split.jpg';
+import radiate from 'assets/images/trippy/radiate.jpg';
+import trace from 'assets/images/trippy/trace.jpg';
+import opal from 'assets/images/trippy/opal.jpg';
+import fluorite from 'assets/images/trippy/fluorite.jpg';
 
 export const PresetGrid = (props) => {
   const selection = useSelection('image');
@@ -20,60 +19,60 @@ export const PresetGrid = (props) => {
       name: 'None',
       thumb: none,
       params: {
-        hueOffset: 0,
-        saturation: 0,
-        rainbowAmount: 0,
-        rainbowOffset: 0,
+        rgbAmount: 0,
+        rgbAngle: 0,
+        solarizeAmount: 0,
+        jitterAmount: 0,
       },
     },
     {
-      name: 'Rainbow',
-      thumb: rainbow,
+      name: 'Split',
+      thumb: split,
       params: {
-        hueOffset: 0,
-        saturation: 0,
-        rainbowAmount: 0.5,
-        rainbowOffset: 0.5,
+        rgbAmount: 0,
+        rgbAngle: 0,
+        solarizeAmount: 0.5,
+        jitterAmount: 0.5,
       },
     },
     {
-      name: 'Arctic',
-      thumb: arctic,
+      name: 'Radiate',
+      thumb: radiate,
       params: {
-        hueOffset: 1,
-        saturation: 0.1,
-        rainbowAmount: 0,
-        rainbowOffset: 0,
+        rgbAmount: 1,
+        rgbAngle: 0.1,
+        solarizeAmount: 0,
+        jitterAmount: 0,
       },
     },
     {
-      name: 'Amethyst',
-      thumb: amethyst,
+      name: 'Trace',
+      thumb: trace,
       params: {
-        hueOffset: -0.6,
-        saturation: 0.2,
-        rainbowAmount: 0,
-        rainbowOffset: 0,
+        rgbAmount: -0.6,
+        rgbAngle: 0.2,
+        solarizeAmount: 0,
+        jitterAmount: 0,
       },
     },
     {
-      name: 'Marmalade',
-      thumb: marmalade,
+      name: 'Opal',
+      thumb: opal,
       params: {
-        hueOffset: 0.3,
-        saturation: 0.6,
-        rainbowAmount: 0,
-        rainbowOffset: 0,
+        rgbAmount: 0.3,
+        rgbAngle: 0.6,
+        solarizeAmount: 0,
+        jitterAmount: 0,
       },
     },
     {
-      name: 'Parakeet',
-      thumb: parakeet,
+      name: 'Flourite',
+      thumb: fluorite,
       params: {
-        hueOffset: 0.8,
-        saturation: 0.3,
-        rainbowAmount: 0.2,
-        rainbowOffset: 0,
+        rgbAmount: 0.8,
+        rgbAngle: 0.3,
+        solarizeAmount: 0.2,
+        jitterAmount: 0,
       },
     },
   ];

@@ -10,10 +10,10 @@ import { PresetGrid } from './preset_grid';
 import { ParamSlider } from './ParamSlider';
 
 const initialParams: EffectParams = {
-  hueOffset: 0,
-  saturation: 0,
-  rainbowAmount: 0,
-  rainbowOffset: 0,
+  rgbAmount: 0,
+  rgbAngle: 0,
+  jitterAmount: 0,
+  solarizeAmount: 0,
 };
 
 export const ObjectPanel = () => {
@@ -138,48 +138,48 @@ export const ObjectPanel = () => {
           {isOpen && (
             <>
               <ParamSlider
-                label="Hue offset"
-                paramName="hueOffset"
+                label="RGB split amount"
+                paramName="rgbAmount"
                 min="-1"
                 max="1"
                 step="0.01"
                 origin="0"
-                defaultValue={initialParams.hueOffset}
-                value={params.hueOffset}
+                defaultValue={initialParams.rgbAmount}
+                value={params.rgbAmount}
                 onChange={onSliderChange}
                 disabled={!isOpen}
               />
               <ParamSlider
-                label="Saturation"
-                paramName="saturation"
+                label="RGB split angle"
+                paramName="rgbAngle"
                 min="-1"
                 max="1"
                 step="0.01"
                 origin="0"
-                defaultValue={initialParams.saturation}
-                value={params.saturation}
+                defaultValue={initialParams.rgbAngle}
+                value={params.rgbAngle}
                 onChange={onSliderChange}
                 disabled={!isOpen}
               />
               <ParamSlider
-                label="Rainbow amount"
-                paramName="rainbowAmount"
+                label="Jitter amount"
+                paramName="jitterAmount"
                 min="0"
                 max="0.8"
                 step="0.01"
-                defaultValue={initialParams.rainbowAmount}
-                value={params.rainbowAmount}
+                defaultValue={initialParams.jitterAmount}
+                value={params.jitterAmount}
                 onChange={onSliderChange}
                 disabled={!isOpen}
               />
               <ParamSlider
-                label="Rainbow offset"
-                paramName="rainbowOffset"
+                label="Solarize amount"
+                paramName="solarizeAmount"
                 min="0"
                 max="2"
                 step="0.01"
-                defaultValue={initialParams.rainbowOffset}
-                value={params.rainbowOffset}
+                defaultValue={initialParams.solarizeAmount}
+                value={params.solarizeAmount}
                 onChange={onSliderChange}
                 disabled={!isOpen}
               />

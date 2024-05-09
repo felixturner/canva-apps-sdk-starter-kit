@@ -12,10 +12,10 @@ export type LaunchParams = {
 
 //slider parameters used in effect
 export type EffectParams = {
-  hueOffset: number;
-  saturation: number;
-  rainbowAmount: number;
-  rainbowOffset: number;
+  rgbAmount: number;
+  rgbAngle: number;
+  solarizeAmount: number;
+  jitterAmount: number;
 };
 
 export const App = () => {
