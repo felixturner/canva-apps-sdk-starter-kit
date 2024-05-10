@@ -3,12 +3,11 @@ import { Grid } from '@canva/app-ui-kit';
 import { Preset } from './preset';
 import { useSelection } from 'utils/use_selection_hook';
 
-import none from 'assets/images/trippy/none.jpg';
-import split from 'assets/images/trippy/split.jpg';
-import radiate from 'assets/images/trippy/radiate.jpg';
-import trace from 'assets/images/trippy/trace.jpg';
-import opal from 'assets/images/trippy/opal.jpg';
-import fluorite from 'assets/images/trippy/fluorite.jpg';
+import none from 'assets/images/screen/none.jpg';
+import half from 'assets/images/screen/half.jpg';
+import semi from 'assets/images/screen/semi.jpg';
+import lino from 'assets/images/screen/lino.jpg';
+import cord from 'assets/images/screen/cord.jpg';
 
 export const PresetGrid = (props) => {
   const selection = useSelection('image');
@@ -19,60 +18,50 @@ export const PresetGrid = (props) => {
       name: 'None',
       thumb: none,
       params: {
-        rgbAmount: 0,
-        rgbAngle: 0,
-        solarizeAmount: 0,
-        jitterAmount: 0,
+        halftoneAmount: 0,
+        halftoneScale: 1,
+        linoAmount: 0,
+        linoScale: 1,
       },
     },
     {
-      name: 'Radiate',
-      thumb: radiate,
+      name: 'Halftone',
+      thumb: half,
       params: {
-        rgbAmount: 0.1,
-        rgbAngle: 0,
-        solarizeAmount: 0,
-        jitterAmount: 0,
+        halftoneAmount: 1,
+        halftoneScale: 1.7,
+        linoAmount: 0,
+        linoScale: 1,
       },
     },
     {
-      name: 'Split',
-      thumb: split,
+      name: 'Semitone',
+      thumb: semi,
       params: {
-        rgbAmount: 0.8,
-        rgbAngle: 0,
-        solarizeAmount: 0,
-        jitterAmount: 0,
+        halftoneAmount: 0.16,
+        halftoneScale: 1.3,
+        linoAmount: 0,
+        linoScale: 1,
       },
     },
     {
-      name: 'Flourite',
-      thumb: fluorite,
+      name: 'Lino',
+      thumb: lino,
       params: {
-        rgbAmount: 0.4,
-        rgbAngle: 0.8,
-        solarizeAmount: 0,
-        jitterAmount: 0.55,
+        halftoneAmount: 0,
+        halftoneScale: 1,
+        linoAmount: 1,
+        linoScale: 0.5,
       },
     },
     {
-      name: 'Opal',
-      thumb: opal,
+      name: 'Corduroy',
+      thumb: cord,
       params: {
-        rgbAmount: 0.3,
-        rgbAngle: 0.25,
-        solarizeAmount: 0.5,
-        jitterAmount: 0.5,
-      },
-    },
-    {
-      name: 'Trace',
-      thumb: trace,
-      params: {
-        rgbAmount: 0.6,
-        rgbAngle: 0.2,
-        solarizeAmount: 1,
-        jitterAmount: 0,
+        halftoneAmount: 1,
+        halftoneScale: 3,
+        linoAmount: 0.5,
+        linoScale: 0.5,
       },
     },
   ];

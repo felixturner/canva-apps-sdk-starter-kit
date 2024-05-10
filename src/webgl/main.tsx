@@ -2,13 +2,12 @@ import { appProcess } from '@canva/preview/platform';
 
 import * as THREE from 'three';
 import * as Composer from './fx/Composer.js';
-import { RGBShiftShader } from './fx/shaders/RGBShiftShader.js';
-import { JitterShader } from './fx/shaders/JitterShader.js';
-import { SolarizeShader } from './fx/shaders/SolarizeShader.js';
+import { HalftoneShader } from './fx/shaders/HalftoneShader.js';
+import { LinocutShader } from './fx/shaders/LinocutShader.js';
 
 let camera, scene, renderer;
 let quadMaterial;
-let rgbPass, jitterPass, solarizePass;
+let halftonePass, linoPass;
 let mimeType;
 
 export async function initGL(canvas) {
@@ -29,9 +28,9 @@ export async function initGL(canvas) {
 
   Composer.init(renderer);
   Composer.addRenderPass(scene, camera);
-  solarizePass = Composer.addShaderPass(SolarizeShader);
-  rgbPass = Composer.addShaderPass(RGBShiftShader);
-  jitterPass = Composer.addShaderPass(JitterShader);
+  linoPass = Composer.addShaderPass(LinocutShader);
+  halftonePass = Composer.addShaderPass(HalftoneShader);
+  linoPass.usesResolution = true;
 
   update();
 }
@@ -71,10 +70,10 @@ function update() {
 }
 
 export function setParams(params) {
-  rgbPass.uniforms.amount.value = params.rgbAmount;
-  rgbPass.uniforms.angle.value = params.rgbAngle;
-  jitterPass.uniforms.amount.value = params.jitterAmount;
-  solarizePass.uniforms.amount.value = params.solarizeAmount;
+  halftonePass.uniforms.amount.value = params.halftoneAmount;
+  halftonePass.uniforms.scale.value = params.halftoneScale;
+  linoPass.uniforms.amount.value = params.linoAmount;
+  linoPass.uniforms.scale.value = params.linoScale;
 
   update();
 }

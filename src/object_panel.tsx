@@ -10,10 +10,10 @@ import { PresetGrid } from './preset_grid';
 import { ParamSlider } from './ParamSlider';
 
 const initialParams: EffectParams = {
-  rgbAmount: 0,
-  rgbAngle: 0,
-  jitterAmount: 0,
-  solarizeAmount: 0,
+  halftoneAmount: 0,
+  halftoneScale: 1,
+  linoAmount: 0,
+  linoScale: 1,
 };
 
 export const ObjectPanel = () => {
@@ -138,48 +138,48 @@ export const ObjectPanel = () => {
           {isOpen && (
             <>
               <ParamSlider
-                label="RGB shift amount"
-                paramName="rgbAmount"
+                label="Halftone amount"
+                paramName="halftoneAmount"
                 min="0"
                 max="1"
                 step="0.01"
                 origin="0"
-                defaultValue={initialParams.rgbAmount}
-                value={params.rgbAmount}
+                defaultValue={initialParams.halftoneAmount}
+                value={params.halftoneAmount}
                 onChange={onSliderChange}
                 disabled={!isOpen}
               />
               <ParamSlider
-                label="RGB shift angle"
-                paramName="rgbAngle"
-                min="0"
-                max="1"
+                label="Halftone scale"
+                paramName="halftoneScale"
+                min="1"
+                max="3"
                 step="0.01"
                 origin="0"
-                defaultValue={initialParams.rgbAngle}
-                value={params.rgbAngle}
+                defaultValue={initialParams.halftoneScale}
+                value={params.halftoneScale}
                 onChange={onSliderChange}
                 disabled={!isOpen}
               />
               <ParamSlider
-                label="Jitter"
-                paramName="jitterAmount"
+                label="Linocut amount"
+                paramName="linoAmount"
                 min="0"
                 max="1"
                 step="0.01"
-                defaultValue={initialParams.jitterAmount}
-                value={params.jitterAmount}
+                defaultValue={initialParams.linoAmount}
+                value={params.linoAmount}
                 onChange={onSliderChange}
                 disabled={!isOpen}
               />
               <ParamSlider
-                label="Solarize"
-                paramName="solarizeAmount"
-                min="0"
-                max="1"
+                label="Linocut scale"
+                paramName="linoScale"
+                min="0.5"
+                max="1.5"
                 step="0.01"
-                defaultValue={initialParams.solarizeAmount}
-                value={params.solarizeAmount}
+                defaultValue={initialParams.linoScale}
+                value={params.linoScale}
                 onChange={onSliderChange}
                 disabled={!isOpen}
               />
