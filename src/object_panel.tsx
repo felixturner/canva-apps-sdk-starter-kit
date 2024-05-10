@@ -10,10 +10,9 @@ import { PresetGrid } from './preset_grid';
 import { ParamSlider } from './ParamSlider';
 
 const initialParams: EffectParams = {
-  halftoneAmount: 0,
-  halftoneScale: 1,
-  linoAmount: 0,
-  linoScale: 1,
+  count: 10,
+  offset: 0,
+  position: 0,
 };
 
 export const ObjectPanel = () => {
@@ -138,48 +137,39 @@ export const ObjectPanel = () => {
           {isOpen && (
             <>
               <ParamSlider
-                label="Halftone amount"
-                paramName="halftoneAmount"
+                label="Offset"
+                paramName="offset"
+                min="0"
+                max="0.2"
+                step="0.01"
+                origin="0"
+                defaultValue={initialParams.offset}
+                value={params.offset}
+                onChange={onSliderChange}
+                disabled={!isOpen}
+              />
+              <ParamSlider
+                label="Count"
+                paramName="count"
+                min="2"
+                max="30"
+                step="1"
+                origin="0"
+                defaultValue={initialParams.count}
+                value={params.count}
+                onChange={onSliderChange}
+                disabled={!isOpen}
+              />
+
+              <ParamSlider
+                label="Position"
+                paramName="position"
                 min="0"
                 max="1"
                 step="0.01"
                 origin="0"
-                defaultValue={initialParams.halftoneAmount}
-                value={params.halftoneAmount}
-                onChange={onSliderChange}
-                disabled={!isOpen}
-              />
-              <ParamSlider
-                label="Halftone scale"
-                paramName="halftoneScale"
-                min="1"
-                max="3"
-                step="0.01"
-                origin="0"
-                defaultValue={initialParams.halftoneScale}
-                value={params.halftoneScale}
-                onChange={onSliderChange}
-                disabled={!isOpen}
-              />
-              <ParamSlider
-                label="Linocut amount"
-                paramName="linoAmount"
-                min="0"
-                max="1"
-                step="0.01"
-                defaultValue={initialParams.linoAmount}
-                value={params.linoAmount}
-                onChange={onSliderChange}
-                disabled={!isOpen}
-              />
-              <ParamSlider
-                label="Linocut scale"
-                paramName="linoScale"
-                min="0.5"
-                max="1.5"
-                step="0.01"
-                defaultValue={initialParams.linoScale}
-                value={params.linoScale}
+                defaultValue={initialParams.position}
+                value={params.position}
                 onChange={onSliderChange}
                 disabled={!isOpen}
               />

@@ -3,11 +3,11 @@ import { Grid } from '@canva/app-ui-kit';
 import { Preset } from './preset';
 import { useSelection } from 'utils/use_selection_hook';
 
-import none from 'assets/images/screen/none.jpg';
-import half from 'assets/images/screen/half.jpg';
-import semi from 'assets/images/screen/semi.jpg';
-import lino from 'assets/images/screen/lino.jpg';
-import cord from 'assets/images/screen/cord.jpg';
+import none from 'assets/images/slice/none.jpg';
+import chipped from 'assets/images/slice/chipped.jpg';
+import sliced from 'assets/images/slice/sliced.jpg';
+import minced from 'assets/images/slice/minced.jpg';
+import torn from 'assets/images/slice/torn.jpg';
 
 export const PresetGrid = (props) => {
   const selection = useSelection('image');
@@ -18,50 +18,45 @@ export const PresetGrid = (props) => {
       name: 'None',
       thumb: none,
       params: {
-        halftoneAmount: 0,
-        halftoneScale: 1,
-        linoAmount: 0,
-        linoScale: 1,
+        count: 10,
+        offset: 0,
+        position: 0,
       },
     },
     {
-      name: 'Halftone',
-      thumb: half,
+      name: 'Chipped',
+      thumb: chipped,
       params: {
-        halftoneAmount: 1,
-        halftoneScale: 1.7,
-        linoAmount: 0,
-        linoScale: 1,
+        count: 20,
+        offset: 0.01,
+        position: 0,
       },
     },
     {
-      name: 'Semitone',
-      thumb: semi,
+      name: 'Sliced',
+      thumb: sliced,
       params: {
-        halftoneAmount: 0.16,
-        halftoneScale: 1.3,
-        linoAmount: 0,
-        linoScale: 1,
+        count: 10,
+        offset: 0.12,
+        position: 0,
       },
     },
     {
-      name: 'Lino',
-      thumb: lino,
+      name: 'Minced',
+      thumb: minced,
       params: {
-        halftoneAmount: 0,
-        halftoneScale: 1,
-        linoAmount: 1,
-        linoScale: 0.5,
+        count: 27,
+        offset: 0.16,
+        position: 0,
       },
     },
     {
-      name: 'Corduroy',
-      thumb: cord,
+      name: 'Torn',
+      thumb: torn,
       params: {
-        halftoneAmount: 1,
-        halftoneScale: 3,
-        linoAmount: 0.5,
-        linoScale: 0.5,
+        count: 5,
+        offset: 0.2,
+        position: 0,
       },
     },
   ];

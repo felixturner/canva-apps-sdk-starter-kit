@@ -2,12 +2,11 @@ import { appProcess } from '@canva/preview/platform';
 
 import * as THREE from 'three';
 import * as Composer from './fx/Composer.js';
-import { HalftoneShader } from './fx/shaders/HalftoneShader.js';
-import { LinocutShader } from './fx/shaders/LinocutShader.js';
+import { SlicesShader } from './fx/shaders/SlicesShader.js';
 
 let camera, scene, renderer;
 let quadMaterial;
-let halftonePass, linoPass;
+let slicesPass;
 let mimeType;
 
 export async function initGL(canvas) {
@@ -28,9 +27,7 @@ export async function initGL(canvas) {
 
   Composer.init(renderer);
   Composer.addRenderPass(scene, camera);
-  linoPass = Composer.addShaderPass(LinocutShader);
-  halftonePass = Composer.addShaderPass(HalftoneShader);
-  linoPass.usesResolution = true;
+  slicesPass = Composer.addShaderPass(SlicesShader);
 
   update();
 }
@@ -70,10 +67,9 @@ function update() {
 }
 
 export function setParams(params) {
-  halftonePass.uniforms.amount.value = params.halftoneAmount;
-  halftonePass.uniforms.scale.value = params.halftoneScale;
-  linoPass.uniforms.amount.value = params.linoAmount;
-  linoPass.uniforms.scale.value = params.linoScale;
+  slicesPass.uniforms.slices.value = params.count;
+  slicesPass.uniforms.offset.value = params.offset;
+  slicesPass.uniforms.position.value = params.position;
 
   update();
 }

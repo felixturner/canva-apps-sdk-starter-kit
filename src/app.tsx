@@ -12,10 +12,9 @@ export type LaunchParams = {
 
 //slider parameters used in effect
 export type EffectParams = {
-  halftoneAmount: number;
-  halftoneScale: number;
-  linoAmount: number;
-  linoScale: number;
+  count: number;
+  offset: number;
+  position: number;
 };
 
 export const App = () => {
