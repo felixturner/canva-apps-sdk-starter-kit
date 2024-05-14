@@ -2,11 +2,12 @@ import { appProcess } from '@canva/preview/platform';
 
 import * as THREE from 'three';
 import * as Composer from './fx/Composer.js';
-import { SlicesShader } from './fx/shaders/SlicesShader.js';
+import { BadTVShader } from './fx/shaders/BadTVShader.js';
+import { ScanlinesShader } from './fx/shaders/ScanlinesShader.js';
 
 let camera, scene, renderer;
 let quadMaterial;
-let slicesPass;
+let badTVPass, scanlinesPass;
 let mimeType;
 
 export async function initGL(canvas) {
@@ -27,7 +28,9 @@ export async function initGL(canvas) {
 
   Composer.init(renderer);
   Composer.addRenderPass(scene, camera);
-  slicesPass = Composer.addShaderPass(SlicesShader);
+  badTVPass = Composer.addShaderPass(BadTVShader);
+  scanlinesPass = Composer.addShaderPass(ScanlinesShader);
+  scanlinesPass.usesResolution = true;
 
   update();
 }
@@ -67,9 +70,12 @@ function update() {
 }
 
 export function setParams(params) {
-  slicesPass.uniforms.slices.value = params.count;
-  slicesPass.uniforms.offset.value = params.offset;
-  slicesPass.uniforms.position.value = params.position;
+  badTVPass.uniforms.distortion.value = params.thickDistort;
+  badTVPass.uniforms.distortion2.value = params.fineDistort;
+  badTVPass.uniforms.position.value = params.position;
+  scanlinesPass.uniforms.linesAmount.value = params.linesAmount;
+  scanlinesPass.uniforms.width.value = params.width;
+  scanlinesPass.uniforms.noiseAmount.value = params.static;
 
   update();
 }

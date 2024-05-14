@@ -10,9 +10,12 @@ import { PresetGrid } from './preset_grid';
 import { ParamSlider } from './ParamSlider';
 
 const initialParams: EffectParams = {
-  count: 10,
-  offset: 0,
+  thickDistort: 10,
+  fineDistort: 0,
   position: 0,
+  linesAmount: 0,
+  width: 0,
+  static: 0.5,
 };
 
 export const ObjectPanel = () => {
@@ -46,7 +49,6 @@ export const ObjectPanel = () => {
         } satisfies LaunchParams,
       });
     }
-
     setParams(presetParams);
     appProcess.broadcastMessage(presetParams);
   };
@@ -137,30 +139,29 @@ export const ObjectPanel = () => {
           {isOpen && (
             <>
               <ParamSlider
-                label="Offset"
-                paramName="offset"
+                label="Thick distort"
+                paramName="thickDistort"
                 min="0"
-                max="0.2"
+                max="2"
                 step="0.01"
                 origin="0"
-                defaultValue={initialParams.offset}
-                value={params.offset}
+                defaultValue={initialParams.thickDistort}
+                value={params.thickDistort}
                 onChange={onSliderChange}
                 disabled={!isOpen}
               />
               <ParamSlider
-                label="Count"
-                paramName="count"
-                min="2"
-                max="30"
-                step="1"
+                label="Fine distort"
+                paramName="fineDistort"
+                min="0"
+                max="2"
+                step="0.01"
                 origin="0"
-                defaultValue={initialParams.count}
-                value={params.count}
+                defaultValue={initialParams.fineDistort}
+                value={params.fineDistort}
                 onChange={onSliderChange}
                 disabled={!isOpen}
               />
-
               <ParamSlider
                 label="Position"
                 paramName="position"
@@ -170,6 +171,43 @@ export const ObjectPanel = () => {
                 origin="0"
                 defaultValue={initialParams.position}
                 value={params.position}
+                onChange={onSliderChange}
+                disabled={!isOpen}
+              />
+
+              <ParamSlider
+                label="Scanlines Amount"
+                paramName="linesAmount"
+                min="0"
+                max="1"
+                step="0.01"
+                origin="0"
+                defaultValue={initialParams.linesAmount}
+                value={params.linesAmount}
+                onChange={onSliderChange}
+                disabled={!isOpen}
+              />
+              <ParamSlider
+                label="Scanlines width"
+                paramName="width"
+                min="0.2"
+                max="1"
+                step="0.01"
+                origin="0"
+                defaultValue={initialParams.width}
+                value={params.width}
+                onChange={onSliderChange}
+                disabled={!isOpen}
+              />
+              <ParamSlider
+                label="Static"
+                paramName="static"
+                min="0"
+                max="1"
+                step="0.01"
+                origin="0"
+                defaultValue={initialParams.static}
+                value={params.static}
                 onChange={onSliderChange}
                 disabled={!isOpen}
               />

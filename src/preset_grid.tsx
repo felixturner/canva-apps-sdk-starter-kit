@@ -3,11 +3,12 @@ import { Grid } from '@canva/app-ui-kit';
 import { Preset } from './preset';
 import { useSelection } from 'utils/use_selection_hook';
 
-import none from 'assets/images/slice/none.jpg';
-import chipped from 'assets/images/slice/chipped.jpg';
-import sliced from 'assets/images/slice/sliced.jpg';
-import minced from 'assets/images/slice/minced.jpg';
-import torn from 'assets/images/slice/torn.jpg';
+import none from 'assets/images/badtv/none.jpg';
+import retro from 'assets/images/badtv/retro.jpg';
+import tube from 'assets/images/badtv/tube.jpg';
+import fuzz from 'assets/images/badtv/fuzz.jpg';
+import vhs from 'assets/images/badtv/vhs.jpg';
+import warp from 'assets/images/badtv/warp.jpg';
 
 export const PresetGrid = (props) => {
   const selection = useSelection('image');
@@ -18,45 +19,72 @@ export const PresetGrid = (props) => {
       name: 'None',
       thumb: none,
       params: {
-        count: 10,
-        offset: 0,
+        thickDistort: 0,
+        fineDistort: 0,
         position: 0,
+        linesAmount: 0,
+        width: 0.5,
+        static: 0,
       },
     },
     {
-      name: 'Chipped',
-      thumb: chipped,
+      name: 'Retro',
+      thumb: retro,
       params: {
-        count: 20,
-        offset: 0.01,
+        thickDistort: 0.7,
+        fineDistort: 0.3,
         position: 0,
+        linesAmount: 0.4,
+        width: 1,
+        static: 0.3,
       },
     },
     {
-      name: 'Sliced',
-      thumb: sliced,
+      name: 'Tube',
+      thumb: tube,
       params: {
-        count: 10,
-        offset: 0.12,
-        position: 0,
+        thickDistort: 1.5,
+        fineDistort: 1,
+        position: 0.5,
+        linesAmount: 0.1,
+        width: 0.45,
+        static: 0.25,
       },
     },
     {
-      name: 'Minced',
-      thumb: minced,
+      name: 'Fuzz',
+      thumb: fuzz,
       params: {
-        count: 27,
-        offset: 0.16,
+        thickDistort: 0,
+        fineDistort: 0,
         position: 0,
+        linesAmount: 0.25,
+        width: 0.5,
+        static: 0.8,
       },
     },
     {
-      name: 'Torn',
-      thumb: torn,
+      name: 'VHS',
+      thumb: vhs,
       params: {
-        count: 5,
-        offset: 0.2,
+        thickDistort: 1,
+        fineDistort: 0.5,
         position: 0,
+        linesAmount: 0.4,
+        width: 1,
+        static: 0,
+      },
+    },
+    {
+      name: 'Warp',
+      thumb: warp,
+      params: {
+        thickDistort: 2,
+        fineDistort: 0.2,
+        position: 0.8,
+        linesAmount: 0,
+        width: 0.1,
+        static: 0,
       },
     },
   ];
