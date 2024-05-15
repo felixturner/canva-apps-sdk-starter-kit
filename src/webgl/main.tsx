@@ -2,12 +2,13 @@ import { appProcess } from '@canva/preview/platform';
 
 import * as THREE from 'three';
 import * as Composer from './fx/Composer.js';
-import { BadTVShader } from './fx/shaders/BadTVShader.js';
-import { ScanlinesShader } from './fx/shaders/ScanlinesShader.js';
+import { SmearShader } from './fx/shaders/SmearShader.js';
+import { MeltShader } from './fx/shaders/MeltShader.js';
+import { WobbleShader } from './fx/shaders/WobbleShader.js';
 
 let camera, scene, renderer;
 let quadMaterial;
-let badTVPass, scanlinesPass;
+let smearPass, meltPass, wobblePass;
 let mimeType;
 
 export async function initGL(canvas) {
@@ -28,9 +29,9 @@ export async function initGL(canvas) {
 
   Composer.init(renderer);
   Composer.addRenderPass(scene, camera);
-  badTVPass = Composer.addShaderPass(BadTVShader);
-  scanlinesPass = Composer.addShaderPass(ScanlinesShader);
-  scanlinesPass.usesResolution = true;
+  smearPass = Composer.addShaderPass(SmearShader);
+  meltPass = Composer.addShaderPass(MeltShader);
+  wobblePass = Composer.addShaderPass(WobbleShader);
 
   update();
 }
@@ -70,12 +71,11 @@ function update() {
 }
 
 export function setParams(params) {
-  badTVPass.uniforms.distortion.value = params.thickDistort;
-  badTVPass.uniforms.distortion2.value = params.fineDistort;
-  badTVPass.uniforms.position.value = params.position;
-  scanlinesPass.uniforms.linesAmount.value = params.linesAmount;
-  scanlinesPass.uniforms.width.value = params.width;
-  scanlinesPass.uniforms.noiseAmount.value = params.static;
+  smearPass.uniforms.amount.value = params.smear;
+  meltPass.uniforms.amount.value = params.meltAmount;
+  meltPass.uniforms.scale.value = params.meltScale;
+  wobblePass.uniforms.strength.value = params.wobbleAmount;
+  wobblePass.uniforms.size.value = params.wobbleScale;
 
   update();
 }

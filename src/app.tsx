@@ -12,12 +12,11 @@ export type LaunchParams = {
 
 //slider parameters used in effect
 export type EffectParams = {
-  thickDistort: number;
-  fineDistort: number;
-  position: number;
-  linesAmount: number;
-  width: number;
-  static: number;
+  smear: number;
+  meltAmount: number;
+  meltScale: number;
+  wobbleAmount: number;
+  wobbleScale: number;
 };
 
 export const App = () => {

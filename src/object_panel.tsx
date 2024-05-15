@@ -10,12 +10,11 @@ import { PresetGrid } from './preset_grid';
 import { ParamSlider } from './ParamSlider';
 
 const initialParams: EffectParams = {
-  thickDistort: 10,
-  fineDistort: 0,
-  position: 0,
-  linesAmount: 0,
-  width: 0,
-  static: 0.5,
+  smear: 0,
+  meltAmount: 0,
+  meltScale: 0.2,
+  wobbleAmount: 0,
+  wobbleScale: 0.1,
 };
 
 export const ObjectPanel = () => {
@@ -139,75 +138,62 @@ export const ObjectPanel = () => {
           {isOpen && (
             <>
               <ParamSlider
-                label="Thick distort"
-                paramName="thickDistort"
-                min="0"
-                max="2"
-                step="0.01"
-                origin="0"
-                defaultValue={initialParams.thickDistort}
-                value={params.thickDistort}
-                onChange={onSliderChange}
-                disabled={!isOpen}
-              />
-              <ParamSlider
-                label="Fine distort"
-                paramName="fineDistort"
-                min="0"
-                max="2"
-                step="0.01"
-                origin="0"
-                defaultValue={initialParams.fineDistort}
-                value={params.fineDistort}
-                onChange={onSliderChange}
-                disabled={!isOpen}
-              />
-              <ParamSlider
-                label="Position"
-                paramName="position"
+                label="Melt Amount"
+                paramName="meltAmount"
                 min="0"
                 max="1"
                 step="0.01"
                 origin="0"
-                defaultValue={initialParams.position}
-                value={params.position}
-                onChange={onSliderChange}
-                disabled={!isOpen}
-              />
-
-              <ParamSlider
-                label="Scanlines Amount"
-                paramName="linesAmount"
-                min="0"
-                max="1"
-                step="0.01"
-                origin="0"
-                defaultValue={initialParams.linesAmount}
-                value={params.linesAmount}
+                defaultValue={initialParams.meltAmount}
+                value={params.meltAmount}
                 onChange={onSliderChange}
                 disabled={!isOpen}
               />
               <ParamSlider
-                label="Scanlines width"
-                paramName="width"
+                label="Melt Scale"
+                paramName="meltScale"
                 min="0.2"
                 max="1"
                 step="0.01"
                 origin="0"
-                defaultValue={initialParams.width}
-                value={params.width}
+                defaultValue={initialParams.meltScale}
+                value={params.meltScale}
                 onChange={onSliderChange}
                 disabled={!isOpen}
               />
               <ParamSlider
-                label="Static"
-                paramName="static"
+                label="Wobble Amount"
+                paramName="wobbleAmount"
                 min="0"
                 max="1"
                 step="0.01"
                 origin="0"
-                defaultValue={initialParams.static}
-                value={params.static}
+                defaultValue={initialParams.wobbleAmount}
+                value={params.wobbleAmount}
+                onChange={onSliderChange}
+                disabled={!isOpen}
+              />
+              <ParamSlider
+                label="Wobble Scale"
+                paramName="wobbleScale"
+                min="0.1"
+                max="1"
+                step="0.01"
+                origin="0"
+                defaultValue={initialParams.wobbleScale}
+                value={params.wobbleScale}
+                onChange={onSliderChange}
+                disabled={!isOpen}
+              />
+              <ParamSlider
+                label="Smear"
+                paramName="smear"
+                min="0"
+                max="1"
+                step="0.01"
+                origin="0"
+                defaultValue={initialParams.smear}
+                value={params.smear}
                 onChange={onSliderChange}
                 disabled={!isOpen}
               />

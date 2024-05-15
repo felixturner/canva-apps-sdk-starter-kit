@@ -3,12 +3,12 @@ import { Grid } from '@canva/app-ui-kit';
 import { Preset } from './preset';
 import { useSelection } from 'utils/use_selection_hook';
 
-import none from 'assets/images/badtv/none.jpg';
-import retro from 'assets/images/badtv/retro.jpg';
-import tube from 'assets/images/badtv/tube.jpg';
-import fuzz from 'assets/images/badtv/fuzz.jpg';
-import vhs from 'assets/images/badtv/vhs.jpg';
-import warp from 'assets/images/badtv/warp.jpg';
+import none from 'assets/images/liquify/none.jpg';
+import melt from 'assets/images/liquify/melt.jpg';
+import wobble from 'assets/images/liquify/wobble.jpg';
+import smear from 'assets/images/liquify/smear.jpg';
+import smudge from 'assets/images/liquify/smudge.jpg';
+import flow from 'assets/images/liquify/flow.jpg';
 
 export const PresetGrid = (props) => {
   const selection = useSelection('image');
@@ -19,72 +19,66 @@ export const PresetGrid = (props) => {
       name: 'None',
       thumb: none,
       params: {
-        thickDistort: 0,
-        fineDistort: 0,
-        position: 0,
-        linesAmount: 0,
-        width: 0.5,
-        static: 0,
+        meltAmount: 0,
+        meltScale: 0.2,
+        wobbleAmount: 0,
+        wobbleScale: 0.1,
+        smear: 0,
       },
     },
     {
-      name: 'Retro',
-      thumb: retro,
+      name: 'Melt',
+      thumb: melt,
       params: {
-        thickDistort: 0.7,
-        fineDistort: 0.3,
-        position: 0,
-        linesAmount: 0.4,
-        width: 1,
-        static: 0.3,
+        meltAmount: 0.5,
+        meltScale: 0.5,
+        wobbleAmount: 0.0,
+        wobbleScale: 0.1,
+        smear: 0,
       },
     },
     {
-      name: 'Tube',
-      thumb: tube,
+      name: 'Wobble',
+      thumb: wobble,
       params: {
-        thickDistort: 1.5,
-        fineDistort: 1,
-        position: 0.5,
-        linesAmount: 0.1,
-        width: 0.45,
-        static: 0.25,
+        meltAmount: 0,
+        meltScale: 0.2,
+        wobbleAmount: 0.5,
+        wobbleScale: 0.5,
+        smear: 0,
       },
     },
     {
-      name: 'Fuzz',
-      thumb: fuzz,
+      name: 'Smear',
+      thumb: smear,
       params: {
-        thickDistort: 0,
-        fineDistort: 0,
-        position: 0,
-        linesAmount: 0.25,
-        width: 0.5,
-        static: 0.8,
+        meltAmount: 0,
+        meltScale: 0.2,
+        wobbleAmount: 0,
+        wobbleScale: 0.1,
+        smear: 0.3,
       },
     },
     {
-      name: 'VHS',
-      thumb: vhs,
+      name: 'Smudge',
+      thumb: smudge,
       params: {
-        thickDistort: 1,
-        fineDistort: 0.5,
-        position: 0,
-        linesAmount: 0.4,
-        width: 1,
-        static: 0,
+        meltAmount: 0.25,
+        meltScale: 0.8,
+        wobbleAmount: 0,
+        wobbleScale: 0.1,
+        smear: 0.6,
       },
     },
     {
-      name: 'Warp',
-      thumb: warp,
+      name: 'Flow',
+      thumb: flow,
       params: {
-        thickDistort: 2,
-        fineDistort: 0.2,
-        position: 0.8,
-        linesAmount: 0,
-        width: 0.1,
-        static: 0,
+        meltAmount: 0.7,
+        meltScale: 0.3,
+        wobbleAmount: 0.6,
+        wobbleScale: 0.4,
+        smear: 0,
       },
     },
   ];
