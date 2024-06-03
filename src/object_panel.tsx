@@ -120,7 +120,7 @@ export const ObjectPanel = () => {
 
   return (
     <div className={styles.scrollContainer}>
-      <Rows spacing="1u">
+      <Rows spacing="3u">
         <>
           {isNothingSelected && (
             <Alert tone="info">Select an image to apply an effect.</Alert>
@@ -137,52 +137,54 @@ export const ObjectPanel = () => {
           />
           {isOpen && (
             <>
-              <ParamSlider
-                label="RGB shift amount"
-                paramName="rgbAmount"
-                min="0"
-                max="1"
-                step="0.01"
-                origin="0"
-                defaultValue={initialParams.rgbAmount}
-                value={params.rgbAmount}
-                onChange={onSliderChange}
-                disabled={!isOpen}
-              />
-              <ParamSlider
-                label="RGB shift angle"
-                paramName="rgbAngle"
-                min="0"
-                max="1"
-                step="0.01"
-                origin="0"
-                defaultValue={initialParams.rgbAngle}
-                value={params.rgbAngle}
-                onChange={onSliderChange}
-                disabled={!isOpen}
-              />
-              <ParamSlider
-                label="Jitter"
-                paramName="jitterAmount"
-                min="0"
-                max="1"
-                step="0.01"
-                defaultValue={initialParams.jitterAmount}
-                value={params.jitterAmount}
-                onChange={onSliderChange}
-                disabled={!isOpen}
-              />
-              <ParamSlider
-                label="Solarize"
-                paramName="solarizeAmount"
-                min="0"
-                max="1"
-                step="0.01"
-                defaultValue={initialParams.solarizeAmount}
-                value={params.solarizeAmount}
-                onChange={onSliderChange}
-                disabled={!isOpen}
-              />
+              <Rows spacing="2u">
+                <ParamSlider
+                  label="RGB shift amount"
+                  paramName="rgbAmount"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  origin="0"
+                  defaultValue={initialParams.rgbAmount}
+                  value={params.rgbAmount}
+                  onChange={onSliderChange}
+                  disabled={!isOpen}
+                />
+                <ParamSlider
+                  label="RGB shift angle"
+                  paramName="rgbAngle"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  origin="0"
+                  defaultValue={initialParams.rgbAngle}
+                  value={params.rgbAngle}
+                  onChange={onSliderChange}
+                  disabled={!isOpen}
+                />
+                <ParamSlider
+                  label="Jitter"
+                  paramName="jitterAmount"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  defaultValue={initialParams.jitterAmount}
+                  value={params.jitterAmount}
+                  onChange={onSliderChange}
+                  disabled={!isOpen}
+                />
+                <ParamSlider
+                  label="Solarize"
+                  paramName="solarizeAmount"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  defaultValue={initialParams.solarizeAmount}
+                  value={params.solarizeAmount}
+                  onChange={onSliderChange}
+                  disabled={!isOpen}
+                />
+              </Rows>
               <Button
                 variant="primary"
                 onClick={() => {
