@@ -24,6 +24,8 @@ export const ObjectPanel = () => {
     close: closeOverlay,
   } = useOverlay('image_selection');
   const selection = useSelection('image');
+  const [selectedPresetIndex, setSelectedPresetIndex] = React.useState(0);
+  const [savedPresetIndex, setSavedPresetIndex] = React.useState(0);
   const [params, setParams] = React.useState<EffectParams>(initialParams);
   const [isNothingSelected, setIsNothingSelected] =
     React.useState<boolean>(false);
@@ -65,6 +67,16 @@ export const ObjectPanel = () => {
     });
   };
 
+  const onSave = () => {
+    setSavedPresetIndex(selectedPresetIndex);
+    closeOverlay({ reason: 'completed' });
+  };
+
+  const onCancel = () => {
+    setSelectedPresetIndex(savedPresetIndex);
+    closeOverlay({ reason: 'aborted' });
+  };
+
   React.useEffect(() => {
     async function checkSelection() {
       const draft = await selection.read();
@@ -96,6 +108,7 @@ export const ObjectPanel = () => {
       if (draft.contents.length === 1) {
         setIsNothingSelected(false);
         setIsValidSelection(true);
+        setSavedPresetIndex(0);
         return;
       }
     }
@@ -108,35 +121,31 @@ export const ObjectPanel = () => {
       if (!message) {
         return;
       }
-
       if (message === 'image-loaded') setImageLoaded(true);
-
-      // if (message === 'overlay-closed') {
-      //   //overlay was closed reset preset to 'none'
-      //   setParams(initialParams);
-      // }
     });
   }, []);
 
   return (
     <div className={styles.scrollContainer}>
       <Rows spacing="3u">
-        <>
-          {isNothingSelected && (
-            <Alert tone="info">Select an image to apply an effect.</Alert>
-          )}
+        {isNothingSelected && (
+          <Alert tone="info">Select an image to apply an effect.</Alert>
+        )}
 
-          {isMultipleSelected && (
-            <Alert tone="critical">
-              Select a single image to apply an effect.
-            </Alert>
-          )}
-          <PresetGrid
-            handlePresetClick={handlePresetClick}
-            disabled={!isValidSelection}
-          />
-          {isOpen && (
-            <>
+        {isMultipleSelected && (
+          <Alert tone="critical">
+            Select a single image to apply an effect.
+          </Alert>
+        )}
+        <PresetGrid
+          handlePresetClick={handlePresetClick}
+          disabled={!isValidSelection}
+          setSelectedPresetIndex={setSelectedPresetIndex}
+          selectedPresetIndex={selectedPresetIndex}
+        />
+        {isOpen && (
+          <>
+            {selectedPresetIndex !== 0 && (
               <Rows spacing="2u">
                 <ParamSlider
                   label="RGB shift amount"
@@ -185,10 +194,12 @@ export const ObjectPanel = () => {
                   disabled={!isOpen}
                 />
               </Rows>
+            )}
+            <Rows spacing="1u">
               <Button
                 variant="primary"
                 onClick={() => {
-                  closeOverlay({ reason: 'completed' });
+                  onSave();
                 }}
                 stretch
                 disabled={!imageLoaded || !isOpen}
@@ -199,16 +210,16 @@ export const ObjectPanel = () => {
               <Button
                 variant="secondary"
                 onClick={() => {
-                  closeOverlay({ reason: 'aborted' });
+                  onCancel();
                 }}
                 stretch
                 disabled={!isOpen}
               >
                 Cancel
               </Button>
-            </>
-          )}
-        </>
+            </Rows>
+          </>
+        )}
       </Rows>
     </div>
   );

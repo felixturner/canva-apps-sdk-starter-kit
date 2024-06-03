@@ -12,7 +12,12 @@ import fluorite from 'assets/images/trippy/fluorite.jpg';
 
 export const PresetGrid = (props) => {
   const selection = useSelection('image');
-  const { handlePresetClick, disabled } = props;
+  const {
+    handlePresetClick,
+    disabled,
+    selectedPresetIndex,
+    setSelectedPresetIndex,
+  } = props;
 
   const presets = [
     {
@@ -76,7 +81,7 @@ export const PresetGrid = (props) => {
       },
     },
   ];
-  const [selectedPresetIndex, setSelectedPresetIndex] = React.useState(0);
+
   const onPresetClick = (index) => {
     setSelectedPresetIndex(index);
     handlePresetClick(presets[index].params);
