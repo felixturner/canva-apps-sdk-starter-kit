@@ -20,7 +20,7 @@ export const Preset = (props) => {
             position: 'relative',
           }}
         >
-          {!disabled && selected && <IconButton />}
+          {!disabled && selected && label !== 'None' && <IconButton />}
 
           <ImageCard
             alt={label}
